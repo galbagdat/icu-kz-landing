@@ -114,6 +114,17 @@
   .tab{flex:1;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700;color:#5b5375}
   .tab.on{background:var(--brand);color:#fff;border-color:var(--brand)}
 
+  .field{margin:12px 0}
+  .field label{display:block;font-size:13.5px;font-weight:600;color:#4a4361;margin-bottom:6px}
+  .field input,.field select{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--brand)}
+  .fieldrow{display:flex;gap:12px}
+  .fieldrow .field{flex:1}
+  .err{color:#e0466e;font-size:13px;margin:6px 0 0}
+  .sendstatus{font-size:13.5px;border-radius:12px;padding:10px 14px;margin-top:10px}
+  .sendstatus.ok{background:#e9fbf5;color:#137a5c;border:1px solid #bfeede}
+  .sendstatus.pending{background:#fff6ea;color:#8a5a00;border:1px solid #f2e2c4}
+  .sendstatus.fail{background:#fdecef;color:#c0324f;border:1px solid #f6c9d3}
   .disclaimer{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);margin-top:22px;padding-top:14px}
   .footlink{color:var(--brand);text-decoration:none}
   .antifear{border-radius:16px;padding:18px;background:linear-gradient(135deg,#fff4e8,#e9fbf5);border:1px solid #f0e6d8}
@@ -153,6 +164,28 @@
       <span class="chip">🚀 Профессии будущего</span>
     </div>
     <p class="muted">Сильных сторон много, путей много. Ошибиться нельзя — можно только узнать себя лучше.</p>
+
+    <div class="card" style="box-shadow:none;background:var(--soft);border-color:#e7dcfa;margin-top:18px">
+      <div class="fieldrow">
+        <div class="field">
+          <label for="fName">Как тебя зовут?</label>
+          <input id="fName" type="text" placeholder="Имя и фамилия" autocomplete="off">
+        </div>
+        <div class="field" style="flex:0 0 130px">
+          <label for="fClass">Класс</label>
+          <select id="fClass">
+            <option value="">—</option>
+            <option>9 класс</option>
+            <option>10 класс</option>
+            <option>11 класс</option>
+            <option>Другое</option>
+          </select>
+        </div>
+      </div>
+      <div id="idErr" class="err hide">Пожалуйста, впиши имя — так наставник поймёт, чьи это результаты.</div>
+      <p class="muted" style="font-size:12.5px;margin:6px 0 0">Имя нужно, чтобы наставник/куратор увидел именно твою карту. Ответы отправляются только организатору теста.</p>
+    </div>
+
     <div class="row" style="margin-top:18px">
       <button class="btn" id="startBtn">Начать путешествие →</button>
       <button class="btn ghost hide" id="resumeBtn">Продолжить с сохранённого</button>
@@ -285,9 +318,16 @@ const Q = [
 Q.forEach((q,i)=>{ q.i=i; });
 const blockIndexOf = id => BLOCKS.findIndex(b=>b.id===id);
 
+/* ================= CONFIG ================= */
+/* Куда отправлять результаты, чтобы организатор их видел.
+   Вставьте сюда URL веб-приложения Google Apps Script (см. career/apps-script.gs).
+   Пока пусто — результаты НЕ отправляются, работает только локальный отчёт. */
+const SUBMIT_URL = "";
+
 /* ================= STATE ================= */
 const KEY="career_map_v1";
-let state = load() || { answers:{}, pos:0, seenInsight:{} };
+let state = load() || { answers:{}, pos:0, seenInsight:{}, identity:{name:"",klass:""}, sent:false };
+if(!state.identity) state.identity={name:"",klass:""};
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
@@ -301,10 +341,18 @@ const intro=$("#intro"), test=$("#test"), report=$("#report");
 const islandsEl=$("#islands");
 BLOCKS.forEach(b=>{ const d=document.createElement("div"); d.className="isl"; d.innerHTML="<i></i>"; islandsEl.appendChild(d); });
 
-/* resume availability */
+/* resume availability + prefill identity */
 if(answeredCount()>0){ $("#resumeBtn").classList.remove("hide"); }
+if(state.identity && state.identity.name){ $("#fName").value=state.identity.name; }
+if(state.identity && state.identity.klass){ $("#fClass").value=state.identity.klass; }
 
-$("#startBtn").onclick=()=>{ state={answers:{},pos:0,seenInsight:{}}; save(); goTest(); };
+$("#startBtn").onclick=()=>{
+  const name=$("#fName").value.trim();
+  if(!name){ $("#idErr").classList.remove("hide"); $("#fName").focus(); return; }
+  $("#idErr").classList.add("hide");
+  state={answers:{}, pos:0, seenInsight:{}, identity:{name:name, klass:$("#fClass").value}, sent:false};
+  save(); goTest();
+};
 $("#resumeBtn").onclick=()=>{ goTest(); };
 
 function goTest(){ intro.classList.add("hide"); report.classList.add("hide"); test.classList.remove("hide"); render(); window.scrollTo(0,0); }
@@ -478,11 +526,71 @@ const COUNTRIES=[
   {name:"Канада",flag:"🇨🇦",why:"баланс качества, безопасности и открытости — мягкий вход в международное образование",prog:"co-op программы (учёба + оплачиваемая практика)",step:"посмотри co-op вузы и требования по английскому",tagFor:["S","C","balance"]},
 ];
 
+/* ================= SUBMIT TO ORGANIZER ================= */
+function buildPayload(s){
+  const clifton=pick("CLIFTON",s).slice(0,5).map(c=>CLIFTON_LABEL[c.dim]);
+  const disc=pick("DISC",s)[0];
+  const riasec=pick("RIASEC",s).slice(0,3).map(r=>RIASEC_LABEL[r.dim]);
+  const roleQ={leader:0,generator:0,support:0,analyst:0};
+  Q.filter(q=>q.role).forEach(q=>{ roleQ[q.role]+=(state.answers[q.i]||0); });
+  const topRole=Object.entries(roleQ).sort((a,b)=>b[1]-a[1])[0][0];
+  const profs=topProfessions(s).map(p=>p.t);
+  const countries=topCountries(s).map(c=>c.name);
+  // human-readable answers keyed by question text
+  const answers={};
+  Q.forEach(q=>{ if(state.answers[q.i]!==undefined){
+    const lab=(LIKERT.find(l=>l.v===state.answers[q.i])||{}).lab;
+    answers[q.t]=lab;
+  }});
+  return {
+    name: (state.identity&&state.identity.name)||"",
+    klass:(state.identity&&state.identity.klass)||"",
+    ts:new Date().toISOString(),
+    strengths:clifton,
+    disc: disc?DISC_LABEL[disc.dim]:"",
+    role: ROLE_LABEL[topRole],
+    riasec, professions:profs, countries,
+    anxiety: s["BOWEN:anxiety"]!==undefined?s["BOWEN:anxiety"]:"",
+    diff: s["BOWEN:diff"]!==undefined?s["BOWEN:diff"]:"",
+    answers
+  };
+}
+let sendState="idle"; // idle | pending | ok | fail
+function submitResults(s){
+  if(!SUBMIT_URL){ sendState="idle"; return; }        // not configured yet
+  if(state.sent){ sendState="ok"; return; }            // already sent this session
+  sendState="pending"; renderSendStatus();
+  const payload=buildPayload(s);
+  fetch(SUBMIT_URL,{
+    method:"POST",
+    mode:"no-cors",                                    // Apps Script write; response not read
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify(payload)
+  }).then(()=>{
+    state.sent=true; save(); sendState="ok"; renderSendStatus();
+  }).catch(()=>{
+    sendState="fail"; renderSendStatus();
+  });
+}
+function renderSendStatus(){
+  const el=document.querySelector("#sendStatus");
+  if(!el) return;
+  if(!SUBMIT_URL){ el.className="sendstatus"; el.style.display="none"; return; }
+  el.style.display="block";
+  if(sendState==="pending"){ el.className="sendstatus pending"; el.textContent="⏳ Отправляем результаты организатору…"; }
+  else if(sendState==="ok"){ el.className="sendstatus ok"; el.textContent="✅ Результаты отправлены — наставник их увидит."; }
+  else if(sendState==="fail"){ el.className="sendstatus fail"; el.innerHTML="⚠️ Не удалось отправить. <a href='#' id='retrySend' class='footlink'>Попробовать ещё раз</a>"; }
+  else { el.style.display="none"; }
+  const rt=document.querySelector("#retrySend");
+  if(rt) rt.onclick=(e)=>{ e.preventDefault(); submitResults(scores()); };
+}
+
 /* ================= REPORT ================= */
 let reportView="student";
 function showReport(){
-  test.classList.add("hide"); report.classList.remove("hide"); report.classList.remove("hide");
+  test.classList.add("hide"); report.classList.remove("hide");
   reportView="student"; renderReport(); window.scrollTo(0,0);
+  submitResults(scores());
 }
 function renderReport(){
   const s=scores();
@@ -494,12 +602,14 @@ function renderReport(){
       '</div>'+
       '<div class="row"><button class="btn alt" id="pdfBtn">⬇︎ Скачать PDF</button>'+
       '<button class="btn ghost" id="restartBtn">Пройти заново</button></div>'+
+      '<div id="sendStatus" class="sendstatus" style="display:none"></div>'+
     '</div>'+
     (reportView==="student" ? studentReport(s) : parentReport(s));
 
   report.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{ reportView=t.dataset.v; renderReport(); window.scrollTo(0,0); });
+  renderSendStatus();
   $("#pdfBtn").onclick=()=>window.print();
-  $("#restartBtn").onclick=()=>{ if(confirm("Начать тест заново? Текущие ответы сотрутся.")){ state={answers:{},pos:0,seenInsight:{}}; save(); report.classList.add("hide"); intro.classList.remove("hide"); window.scrollTo(0,0);} };
+  $("#restartBtn").onclick=()=>{ if(confirm("Начать тест заново? Текущие ответы сотрутся.")){ const id=state.identity||{name:"",klass:""}; state={answers:{},pos:0,seenInsight:{},identity:id,sent:false}; save(); report.classList.add("hide"); intro.classList.remove("hide"); window.scrollTo(0,0);} };
 }
 
 function bar(name,val){
