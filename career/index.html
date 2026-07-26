@@ -4,16 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Карта сильных сторон и профиля будущего</title>
-<meta name="description" content="Бережный тест профориентации для школьников 9–11 класса: открой свои сильные стороны, подходящие профессии и страны.">
+<meta name="description" content="Профориентация по методологии Gallup CliftonStrengths для старшеклассников: определи свои таланты, ведущий домен, профессии и образовательные среды.">
 <style>
   :root{
-    --bg:#fdf7f0; --bg2:#fef3e9;
-    --ink:#2c2440; --muted:#6b6480;
-    --card:#ffffff; --line:#efe6db;
-    --brand:#7c5cff; --brand2:#ff8a5c; --brand3:#28c2a0;
-    --warm:#ffb703; --sky:#4aa8ff;
-    --good:#28c2a0; --soft:#f4eefc;
-    --shadow:0 12px 40px rgba(60,40,90,.10);
+    --bg:#fbf8f4; --ink:#241f33; --muted:#6b6480;
+    --card:#ffffff; --line:#ece3d8;
+    --brand:#6b53e0; --brand2:#e07a4d;
+    --soft:#f2eefb;
+    --exec:#1c8b53; --influence:#d1780f; --relate:#c94f86; --strategy:#5a63d6;
+    --shadow:0 14px 44px rgba(50,35,80,.09);
     --r:20px;
   }
   *{box-sizing:border-box}
@@ -22,97 +21,38 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     color:var(--ink);
     background:
-      radial-gradient(1200px 600px at 10% -10%, #fff0e6 0%, rgba(255,240,230,0) 60%),
-      radial-gradient(1000px 500px at 110% 0%, #efe9ff 0%, rgba(239,233,255,0) 55%),
+      radial-gradient(1200px 600px at 8% -12%, #fdeee2 0%, rgba(253,238,226,0) 58%),
+      radial-gradient(1000px 520px at 112% -4%, #eae6fb 0%, rgba(234,230,251,0) 55%),
       var(--bg);
-    line-height:1.55; -webkit-font-smoothing:antialiased;
+    line-height:1.58; -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:820px;margin:0 auto;padding:22px 18px 80px}
-  .brandbar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--shadow)}
+  .wrap{max-width:840px;margin:0 auto;padding:24px 18px 90px}
+  .brandbar{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+  .logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--shadow)}
   .brandbar b{font-size:15px;letter-spacing:.2px}
   .brandbar span{color:var(--muted);font-size:13px}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;margin-top:16px}
-  h1{font-size:30px;line-height:1.2;margin:6px 0 10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:28px;margin-top:16px}
+  h1{font-size:31px;line-height:1.18;margin:8px 0 12px;letter-spacing:-.3px}
   h2{font-size:22px;margin:0 0 8px}
-  h3{font-size:17px;margin:18px 0 6px}
-  p{margin:8px 0}
+  h3{font-size:17px;margin:22px 0 8px}
+  p{margin:9px 0}
   .muted{color:var(--muted)}
-  .lead{font-size:17px;color:#463c5e}
+  .lead{font-size:17px;color:#3f3757}
 
-  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--soft);color:var(--brand);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
-  .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:#514a66}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--soft);color:var(--brand);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:#4c4564}
 
   .btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;color:#fff;
-    background:linear-gradient(135deg,var(--brand),#9b7bff);padding:14px 22px;border-radius:14px;
-    box-shadow:0 10px 24px rgba(124,92,255,.28);transition:transform .12s ease,box-shadow .12s ease}
+    background:linear-gradient(135deg,var(--brand),#8a76ee);padding:14px 24px;border-radius:14px;
+    box-shadow:0 10px 26px rgba(107,83,224,.26);transition:transform .12s ease}
   .btn:hover{transform:translateY(-1px)}
-  .btn:active{transform:translateY(0)}
-  .btn.alt{background:linear-gradient(135deg,var(--brand2),#ffab7a);box-shadow:0 10px 24px rgba(255,138,92,.28)}
+  .btn.alt{background:linear-gradient(135deg,var(--brand2),#ee9d76);box-shadow:0 10px 26px rgba(224,122,77,.26)}
   .btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--line);box-shadow:none}
-  .btn.wide{width:100%}
   .btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
   .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
   .spacer{flex:1}
-
-  /* progress */
-  .progress{position:sticky;top:0;z-index:5;background:rgba(253,247,240,.85);backdrop-filter:blur(8px);
-    padding:10px 0 6px;margin:-6px 0 10px}
-  .islands{display:flex;gap:6px;justify-content:space-between}
-  .isl{flex:1;height:8px;border-radius:999px;background:#eadfd2;overflow:hidden}
-  .isl > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .35s ease}
-  .isl.done > i{width:100%}
-  .pmeta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:6px}
-
-  .qcount{font-size:13px;color:var(--muted)}
-  .blockhead{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-  .blockemoji{font-size:30px}
-  .qtext{font-size:19px;font-weight:600;margin:16px 0 14px}
-
-  .scale{display:grid;grid-template-columns:1fr;gap:10px}
-  .opt{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);background:#fff;border-radius:14px;
-    padding:13px 15px;cursor:pointer;transition:border-color .12s,background .12s,transform .06s}
-  .opt:hover{border-color:#d8c8f5}
-  .opt.sel{border-color:var(--brand);background:var(--soft)}
-  .opt .dot{width:20px;height:20px;border-radius:50%;border:2px solid #cbbfe6;flex:0 0 auto;display:grid;place-items:center}
-  .opt.sel .dot{border-color:var(--brand);background:var(--brand)}
-  .opt.sel .dot:after{content:"";width:8px;height:8px;background:#fff;border-radius:50%}
-  .opt .lab{font-size:15.5px}
-
-  .insight{margin-top:16px;border-radius:16px;padding:16px 18px;background:linear-gradient(135deg,#fff6ee,#f4eefc);border:1px solid #f0e6f7}
-  .insight b{color:var(--brand)}
-
-  .navbtns{display:flex;gap:10px;margin-top:20px}
-
-  /* report */
-  .super{display:grid;gap:12px;margin-top:8px}
-  .superitem{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,#fff,#fbf7ff)}
-  .superitem .t{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px}
-  .barrow{display:flex;align-items:center;gap:10px;margin:7px 0}
-  .barrow .name{width:150px;font-size:13.5px;color:#4a4361}
-  .bar{flex:1;height:10px;border-radius:999px;background:#eee6f7;overflow:hidden}
-  .bar > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
-  .barrow .val{width:38px;text-align:right;font-size:12.5px;color:var(--muted)}
-
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:620px){.grid2{grid-template-columns:1fr}h1{font-size:25px}.card{padding:20px}}
-  .prof{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:#fff}
-  .prof .pt{font-weight:800;font-size:15.5px}
-  .prof .neighbor{margin-top:8px;font-size:13px;color:#4a4361;background:var(--soft);border-radius:10px;padding:7px 10px}
-  .prof .meta{font-size:13px;color:var(--muted);margin-top:6px}
-  .country{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,#fff,#f2fbf8)}
-  .country .flag{font-size:26px}
-
-  .steps{counter-reset:s;display:grid;gap:10px;margin-top:6px}
-  .step{position:relative;border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px 48px;background:#fff}
-  .step:before{counter-increment:s;content:counter(s);position:absolute;left:12px;top:12px;width:26px;height:26px;border-radius:50%;
-    background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
-
-  .tabbar{display:flex;gap:8px;margin:6px 0 14px}
-  .tab{flex:1;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700;color:#5b5375}
-  .tab.on{background:var(--brand);color:#fff;border-color:var(--brand)}
 
   .field{margin:12px 0}
   .field label{display:block;font-size:13.5px;font-weight:600;color:#4a4361;margin-bottom:6px}
@@ -120,14 +60,74 @@
   .field input:focus,.field select:focus{outline:none;border-color:var(--brand)}
   .fieldrow{display:flex;gap:12px}
   .fieldrow .field{flex:1}
-  .err{color:#e0466e;font-size:13px;margin:6px 0 0}
-  .sendstatus{font-size:13.5px;border-radius:12px;padding:10px 14px;margin-top:10px}
+  .err{color:#d63a63;font-size:13px;margin:6px 0 0}
+
+  .progress{position:sticky;top:0;z-index:5;background:rgba(251,248,244,.9);backdrop-filter:blur(8px);padding:10px 0 6px;margin:-8px 0 10px}
+  .islands{display:flex;gap:5px}
+  .isl{flex:1;height:8px;border-radius:999px;background:#e9ded0;overflow:hidden}
+  .isl > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .35s ease}
+  .pmeta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:6px}
+
+  .qcount{font-size:13px;color:var(--muted)}
+  .blockhead{display:flex;align-items:center;gap:13px;margin-bottom:4px}
+  .blockemoji{font-size:30px}
+  .qtext{font-size:19.5px;font-weight:600;margin:18px 0 16px;line-height:1.4}
+
+  .scale{display:grid;gap:10px}
+  .opt{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:13px 15px;cursor:pointer;transition:border-color .12s,background .12s}
+  .opt:hover{border-color:#cdbff2}
+  .opt.sel{border-color:var(--brand);background:var(--soft)}
+  .opt .dot{width:20px;height:20px;border-radius:50%;border:2px solid #cabde8;flex:0 0 auto;display:grid;place-items:center}
+  .opt.sel .dot{border-color:var(--brand);background:var(--brand)}
+  .opt.sel .dot:after{content:"";width:8px;height:8px;background:#fff;border-radius:50%}
+  .opt .lab{font-size:15.5px}
+
+  .insight{margin-top:16px;border-radius:16px;padding:15px 18px;background:linear-gradient(135deg,#fff5ec,#f2eefb);border:1px solid #efe6f6}
+  .insight b{color:var(--brand)}
+  .navbtns{display:flex;gap:10px;margin-top:22px}
+
+  .super{display:grid;gap:11px;margin-top:8px}
+  .superitem{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,#fff,#faf7ff)}
+  .superitem .t{font-weight:800;font-size:16px}
+  .superitem .dsc{color:#4a4361;font-size:14.5px;margin-top:3px}
+  .badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;letter-spacing:.2px}
+  .badge.exec{background:#e7f6ee;color:var(--exec)}
+  .badge.influence{background:#fcefdd;color:var(--influence)}
+  .badge.relate{background:#fceaf2;color:var(--relate)}
+  .badge.strategy{background:#eaecfc;color:var(--strategy)}
+
+  .barrow{display:flex;align-items:center;gap:11px;margin:9px 0}
+  .barrow .name{width:210px;font-size:14px;color:#40395a}
+  .bar{flex:1;height:11px;border-radius:999px;background:#efe8f6;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:999px}
+  .barrow .val{width:36px;text-align:right;font-size:12.5px;color:var(--muted)}
+  .domlead{border:1px solid var(--line);border-radius:14px;padding:12px 15px;margin-top:12px;background:#faf8ff}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}h1{font-size:26px}.card{padding:21px}.barrow .name{width:150px}}
+  .prof{border:1px solid var(--line);border-radius:16px;padding:15px 16px;background:#fff}
+  .prof .pt{font-weight:800;font-size:15.5px}
+  .prof .neighbor{margin-top:9px;font-size:13px;color:#463f5e;background:var(--soft);border-radius:10px;padding:8px 11px}
+  .prof .meta{font-size:13px;color:var(--muted);margin-top:7px}
+  .country{border:1px solid var(--line);border-radius:16px;padding:15px 16px;background:linear-gradient(135deg,#fff,#f3fbf8)}
+  .country .flag{font-size:26px}
+
+  .steps{counter-reset:s;display:grid;gap:10px;margin-top:6px}
+  .step{position:relative;border:1px solid var(--line);border-radius:14px;padding:13px 15px 13px 50px;background:#fff}
+  .step:before{counter-increment:s;content:counter(s);position:absolute;left:13px;top:13px;width:27px;height:27px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+
+  .tabbar{display:flex;gap:8px;margin:4px 0 14px}
+  .tab{flex:1;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700;color:#5a5275}
+  .tab.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+  .sendstatus{font-size:13.5px;border-radius:12px;padding:10px 14px;margin-top:12px}
   .sendstatus.ok{background:#e9fbf5;color:#137a5c;border:1px solid #bfeede}
   .sendstatus.pending{background:#fff6ea;color:#8a5a00;border:1px solid #f2e2c4}
   .sendstatus.fail{background:#fdecef;color:#c0324f;border:1px solid #f6c9d3}
-  .disclaimer{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);margin-top:22px;padding-top:14px}
-  .footlink{color:var(--brand);text-decoration:none}
-  .antifear{border-radius:16px;padding:18px;background:linear-gradient(135deg,#fff4e8,#e9fbf5);border:1px solid #f0e6d8}
+
+  .antifear{border-radius:16px;padding:18px;background:linear-gradient(135deg,#fff3e6,#e9fbf4);border:1px solid #efe4d4}
+  .disclaimer{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);margin-top:24px;padding-top:14px}
+  .footlink{color:var(--brand)}
   .hide{display:none !important}
 
   @media print{
@@ -144,55 +144,56 @@
     <div class="logo">★</div>
     <div>
       <b>Карта сильных сторон</b><br>
-      <span>и профиля будущего · 9–11 класс</span>
+      <span>и профиля будущего · старшие классы</span>
     </div>
   </div>
 
   <!-- INTRO -->
   <section id="intro" class="card">
-    <span class="pill">🧭 Путешествие к себе · 15–20 минут</span>
-    <h1>Открой свои сильные стороны — и увидь, куда они ведут</h1>
-    <p class="lead">Это не экзамен и не диагноз. Здесь нет «правильных» ответов и нельзя «провалиться».
-    Ты просто узнаёшь себя лучше: свои таланты, интересы, стиль и профессии, где тебе будет хорошо.</p>
+    <span class="pill">🧭 Методология Gallup CliftonStrengths · 15–20 минут</span>
+    <h1>Определи свои сильные стороны — и увидь, куда они ведут</h1>
+    <p class="lead">Это не экзамен и не диагноз, и здесь невозможно «провалиться». За 15–20 минут ты составишь
+    карту своих природных талантов по логике <b>Gallup CliftonStrengths</b> — модели, на которой строят развитие
+    в университетах и международных компаниях, — и увидишь, какие профессии и образовательные среды ей созвучны.</p>
+    <p class="muted">Сильных сторон много, и путей тоже. Задача не в том, чтобы выбрать «единственно правильный»,
+    а в том, чтобы точнее понять себя и опереться на то, что в тебе уже сильно.</p>
     <div class="chips">
-      <span class="chip">💥 Что тебя зажигает</span>
-      <span class="chip">🦸 Твои суперсилы</span>
-      <span class="chip">🧠 Как ты думаешь</span>
-      <span class="chip">🤝 Как ты с людьми</span>
-      <span class="chip">💎 Что тебе важно</span>
-      <span class="chip">🌍 Ты и мир</span>
-      <span class="chip">🚀 Профессии будущего</span>
+      <span class="chip">⚙️ Исполнение</span>
+      <span class="chip">🔥 Влияние</span>
+      <span class="chip">🤝 Отношения</span>
+      <span class="chip">🧠 Стратегическое мышление</span>
+      <span class="chip">🧭 Интересы</span>
+      <span class="chip">💎 Ценности</span>
+      <span class="chip">🌍 Опора</span>
     </div>
-    <p class="muted">Сильных сторон много, путей много. Ошибиться нельзя — можно только узнать себя лучше.</p>
 
-    <div class="card" style="box-shadow:none;background:var(--soft);border-color:#e7dcfa;margin-top:18px">
+    <div class="card" style="box-shadow:none;background:var(--soft);border-color:#e6ddf7;margin-top:16px">
       <div class="fieldrow">
         <div class="field">
           <label for="fName">Как тебя зовут?</label>
           <input id="fName" type="text" placeholder="Имя и фамилия" autocomplete="off">
         </div>
-        <div class="field" style="flex:0 0 130px">
+        <div class="field" style="flex:0 0 140px">
           <label for="fClass">Класс</label>
           <select id="fClass">
             <option value="">—</option>
             <option>9 класс</option>
             <option>10 класс</option>
             <option>11 класс</option>
-            <option>Другое</option>
+            <option>Выпускник</option>
           </select>
         </div>
       </div>
-      <div id="idErr" class="err hide">Пожалуйста, впиши имя — так наставник поймёт, чьи это результаты.</div>
-      <p class="muted" style="font-size:12.5px;margin:6px 0 0">Имя нужно, чтобы наставник/куратор увидел именно твою карту. Ответы отправляются только организатору теста.</p>
+      <div id="idErr" class="err hide">Впиши, пожалуйста, имя — чтобы наставник видел, чья это карта.</div>
+      <p class="muted" style="font-size:12.5px;margin:6px 0 0">Имя нужно, чтобы куратор соотнёс результат именно с тобой. Данные получает только организатор теста.</p>
     </div>
 
     <div class="row" style="margin-top:18px">
-      <button class="btn" id="startBtn">Начать путешествие →</button>
+      <button class="btn" id="startBtn">Начать →</button>
       <button class="btn ghost hide" id="resumeBtn">Продолжить с сохранённого</button>
     </div>
     <div class="disclaimer">
-      Приложение — инструмент саморефлексии и профориентации, а не клиническая диагностика.
-      Оно не ставит диагнозов и не заменяет специалиста.
+      Инструмент саморефлексии и профориентации, а не клиническая диагностика. Он не ставит диагнозов и не заменяет специалиста.
     </div>
   </section>
 
@@ -200,30 +201,26 @@
   <section id="test" class="hide">
     <div class="progress">
       <div class="islands" id="islands"></div>
-      <div class="pmeta">
-        <span id="blockName">—</span>
-        <span id="progText">0%</span>
-      </div>
+      <div class="pmeta"><span id="blockName">—</span><span id="progText">0%</span></div>
     </div>
     <div class="card">
       <div class="blockhead">
-        <div class="blockemoji" id="blockEmoji">💥</div>
+        <div class="blockemoji" id="blockEmoji">⚙️</div>
         <div>
           <div class="qcount" id="qcount">Вопрос 1</div>
           <h2 id="blockTitle">Блок</h2>
         </div>
       </div>
+      <p class="muted" id="blockHint" style="margin-top:2px">Оцени, насколько утверждение описывает тебя.</p>
       <div class="qtext" id="qtext">…</div>
       <div class="scale" id="opts"></div>
-
       <div id="insightBox" class="insight hide"></div>
-
       <div class="navbtns">
         <button class="btn ghost" id="backBtn">← Назад</button>
         <div class="spacer"></div>
         <button class="btn" id="nextBtn" disabled>Дальше →</button>
       </div>
-      <p class="qcount" style="margin-top:14px">💾 Прогресс сохраняется автоматически — можно закрыть и вернуться.</p>
+      <p class="qcount" style="margin-top:14px">Прогресс сохраняется автоматически — можно закрыть вкладку и вернуться позже.</p>
     </div>
   </section>
 
@@ -232,103 +229,127 @@
 </div>
 
 <script>
-/* ================= DATA: modeled question bank ================= */
-/* Each question is tagged to a validated model + dimension.
-   type "likert": agree scale adds weight to `dim`.
-   type "choice": each option maps to a dim.
-   `rev:true` reverses the likert scale. */
+/* ================= Gallup CliftonStrengths: 34 темы × 4 домена ================= */
+const DOMAINS = {
+  exec:      {name:"Исполнение",              short:"Executing",             emoji:"⚙️", color:"var(--exec)",
+              meaning:"Твоя опора — доводить дело до результата: ты знаешь, как воплотить замысел в реальность и не бросить на полпути."},
+  influence: {name:"Влияние",                 short:"Influencing",           emoji:"🔥", color:"var(--influence)",
+              meaning:"Твоя опора — влиять и вести: ты умеешь донести идею, убедить и повести людей за собой."},
+  relate:    {name:"Отношения",               short:"Relationship Building", emoji:"🤝", color:"var(--relate)",
+              meaning:"Твоя опора — отношения: ты создаёшь связи, доверие и ту химию, на которой держится команда."},
+  strategy:  {name:"Стратегическое мышление", short:"Strategic Thinking",    emoji:"🧠", color:"var(--strategy)",
+              meaning:"Твоя опора — мышление: ты поглощаешь информацию, видишь варианты и принимаешь взвешенные решения."},
+};
+
+/* stmt — утверждение для оценки (от 2-го лица), desc — краткое описание таланта для отчёта */
+const THEMES = {
+  // — Исполнение —
+  achiever:      {d:"exec", name:"Достижение",       stmt:"Мне важно каждый день видеть конкретный результат своего труда; ощущение продуктивности заряжает меня.", desc:"внутренний мотор и выносливость — тебе нужен ощутимый результат каждый день."},
+  arranger:      {d:"exec", name:"Организатор",      stmt:"Я легко перестраиваю ресурсы и людей под задачу, находя рабочую конфигурацию даже в неразберихе.", desc:"дирижёр процессов: находишь оптимальную схему там, где другие видят хаос."},
+  belief:        {d:"exec", name:"Принципы",         stmt:"Мои решения опираются на устойчивые ценности, которыми я не поступлюсь ради сиюминутной выгоды.", desc:"внутренний стержень: действуешь из глубоких принципов, а не из удобства."},
+  consistency:   {d:"exec", name:"Справедливость",   stmt:"Мне важно, чтобы правила были едины для всех; двойные стандарты меня искренне возмущают.", desc:"чувство равных правил: ценишь честность и одинаковый подход ко всем."},
+  deliberative:  {d:"exec", name:"Рассудительность", stmt:"Прежде чем действовать, я тщательно взвешиваю риски и просчитываю последствия.", desc:"осторожный стратег: не спешишь и предвидишь подводные камни."},
+  discipline:    {d:"exec", name:"Дисциплина",       stmt:"Мне комфортнее в структуре: планы, распорядок и порядок делают меня эффективнее.", desc:"порядок как сила: структура и планирование помогают тебе добиваться большего."},
+  focus:         {d:"exec", name:"Фокус",            stmt:"Я умею отсекать лишнее и удерживать курс на приоритетную цель, не распыляясь.", desc:"курс на цель: расставляешь приоритеты и не сбиваешься с пути."},
+  responsibility:{d:"exec", name:"Ответственность",  stmt:"Взяв на себя обязательство, я довожу его до конца — данное слово для меня почти закон.", desc:"надёжность высшей пробы: на твоё слово можно положиться."},
+  restorative:   {d:"exec", name:"Восстановление",   stmt:"Меня притягивают проблемы: я люблю разбираться, что сломалось, и приводить это в рабочее состояние.", desc:"решатель проблем: тебя заряжает находить и устранять неполадки."},
+
+  // — Влияние —
+  activator:     {d:"influence", name:"Инициатива",     stmt:"Я быстро перехожу от обсуждения к действию: лучший способ понять — начать делать.", desc:"катализатор: превращаешь разговоры в действие."},
+  command:       {d:"influence", name:"Лидерство",      stmt:"В напряжённой ситуации я способен взять управление на себя и прямо сказать то, что нужно.", desc:"присутствие лидера: берёшь ответственность и говоришь прямо."},
+  communication: {d:"influence", name:"Коммуникация",   stmt:"Мне легко облечь мысль в яркие слова, объяснить сложное и увлечь аудиторию.", desc:"дар слова: превращаешь мысли и события в истории, которые слушают."},
+  competition:   {d:"influence", name:"Соревновательность", stmt:"Меня заводит сравнение с другими; я стремлюсь быть не просто хорошим, а лучшим.", desc:"драйв соревнования: измеряешь себя по вершинам и тянешься к первому месту."},
+  maximizer:     {d:"influence", name:"Максимизация",   stmt:"Мне интереснее превращать сильное в выдающееся, чем подтягивать слабое до среднего.", desc:"фокус на сильном: доводишь хорошее до превосходного."},
+  selfassurance: {d:"influence", name:"Уверенность",    stmt:"Я доверяю своему внутреннему компасу и принимаю решения самостоятельно даже под давлением.", desc:"внутренняя опора: веришь в свой суд и держишь курс сам."},
+  significance:  {d:"influence", name:"Значимость",     stmt:"Мне важно заниматься весомым делом и быть признанным за реальный вклад.", desc:"стремление к масштабу: хочешь оставлять заметный след."},
+  woo:           {d:"influence", name:"Расположение",   stmt:"Мне легко знакомиться с новыми людьми и быстро находить с ними общий язык.", desc:"магнетизм знакомств: легко завоёвываешь расположение новых людей."},
+
+  // — Отношения —
+  adaptability:  {d:"relate", name:"Адаптивность",     stmt:"Я хорошо чувствую себя в неопределённости и спокойно подстраиваюсь под меняющиеся обстоятельства.", desc:"человек настоящего: гибко реагируешь на перемены, не теряя равновесия."},
+  connectedness: {d:"relate", name:"Сопричастность",   stmt:"Я ощущаю, что всё в мире взаимосвязано, и вижу смысл за пределами случайных событий.", desc:"чувство целого: видишь связи и большую картину за событиями."},
+  developer:     {d:"relate", name:"Развитие других",  stmt:"Мне приносит радость замечать потенциал в людях и помогать им расти.", desc:"взращиватель талантов: видишь ростки в людях и помогаешь им раскрыться."},
+  empathy:       {d:"relate", name:"Эмпатия",          stmt:"Я тонко считываю эмоции окружающих, будто проживаю их состояние вместе с ними.", desc:"эмоциональный радар: чувствуешь других почти как самого себя."},
+  harmony:       {d:"relate", name:"Гармония",         stmt:"Я ищу согласие и избегаю ненужных конфликтов, стараясь найти общие точки.", desc:"миротворец: сводишь людей к согласию и снижаешь трение."},
+  includer:      {d:"relate", name:"Включённость",     stmt:"Мне важно, чтобы никто не оставался за бортом; я стараюсь вовлечь тех, кого не замечают.", desc:"расширяешь круг: замечаешь и подключаешь тех, кто в стороне."},
+  individualization:{d:"relate", name:"Индивидуальность", stmt:"Я вижу уникальность каждого человека и нахожу к разным людям разный подход.", desc:"тонкий наблюдатель: улавливаешь непохожесть людей и подстраиваешь подход."},
+  positivity:    {d:"relate", name:"Позитив",          stmt:"Я умею заражать других энтузиазмом и находить хорошее даже в трудных ситуациях.", desc:"источник энергии: поднимаешь настрой команды и веришь в лучшее."},
+  relator:       {d:"relate", name:"Близость",         stmt:"Мне ценнее несколько глубоких, доверительных отношений, чем множество поверхностных.", desc:"глубина связей: строишь по-настоящему близкие, надёжные отношения."},
+
+  // — Стратегическое мышление —
+  analytical:    {d:"strategy", name:"Аналитика",      stmt:"Я ищу доказательства и причины: прежде чем поверить, хочу понять, чем это подтверждается.", desc:"искатель истины: проверяешь факты и докапываешься до причин."},
+  context:       {d:"strategy", name:"Контекст",       stmt:"Чтобы понять настоящее, мне важно разобраться в предыстории — как всё к этому пришло.", desc:"взгляд назад: понимаешь настоящее через историю и предпосылки."},
+  futuristic:    {d:"strategy", name:"Дальновидность", stmt:"Меня вдохновляют образы будущего; я легко представляю, каким всё может стать.", desc:"визионер: живо видишь будущее и заряжаешь им других."},
+  ideation:      {d:"strategy", name:"Генерация идей", stmt:"Меня захватывают идеи и неожиданные связи между, казалось бы, разными явлениями.", desc:"фонтан идей: находишь свежие углы и связываешь несвязуемое."},
+  input:         {d:"strategy", name:"Собиратель",     stmt:"Я люблю накапливать знания, факты и полезные находки — чувствую, что всё это однажды пригодится.", desc:"коллекционер знаний: собираешь то, что делает тебя ресурсным."},
+  intellection:  {d:"strategy", name:"Размышление",    stmt:"Мне нужно время на глубокие раздумья; я получаю удовольствие от интеллектуальной работы наедине с собой.", desc:"глубина мысли: любишь думать основательно и в тишине."},
+  learner:       {d:"strategy", name:"Обучаемость",    stmt:"Меня драйвит сам процесс обучения; осваивать новое — источник энергии, а не обязанность.", desc:"вечный ученик: тебя заряжает путь от незнания к мастерству."},
+  strategic:     {d:"strategy", name:"Стратег",        stmt:"Я быстро вижу разные пути к цели и выбираю оптимальный, отсекая тупиковые.", desc:"навигатор: мгновенно видишь маршруты и выбираешь лучший."},
+};
+
+/* Дополнительные модели для профессий, ценностей и опоры */
+const EXTRA = [
+  // Интересы (RIASEC)
+  {b:"interests", model:"RIASEC", dim:"R", t:"Мне нравится работать руками и с техникой, доводя реальный объект до рабочего состояния."},
+  {b:"interests", model:"RIASEC", dim:"I", t:"Меня увлекает исследовать, анализировать данные и докапываться до сути явлений."},
+  {b:"interests", model:"RIASEC", dim:"A", t:"Мне важно создавать и самовыражаться: тексты, визуал, музыка, дизайн."},
+  {b:"interests", model:"RIASEC", dim:"S", t:"Мне приносит смысл помогать людям, обучать и поддерживать их развитие."},
+  {b:"interests", model:"RIASEC", dim:"E", t:"Меня привлекает предпринимательство: убеждать, вести проекты и брать на себя риск."},
+  {b:"interests", model:"RIASEC", dim:"C", t:"Мне комфортно работать со структурой: системы, регламенты, точность и порядок."},
+  // Ценности
+  {b:"values", model:"VALUES", dim:"impact",      t:"Мне важно, чтобы моя работа приносила ощутимую пользу людям или обществу."},
+  {b:"values", model:"VALUES", dim:"freedom",     t:"Для меня принципиальны свобода и возможность самому определять свой путь."},
+  {b:"values", model:"VALUES", dim:"stability",   t:"Мне важны стабильность и уверенность в завтрашнем дне."},
+  {b:"values", model:"VALUES", dim:"achievement", t:"Меня мотивируют рост, амбициозные цели и признание достигнутого."},
+  {b:"values", model:"VALUES", dim:"growth",      t:"Мне важно постоянно развиваться и расширять свои горизонты."},
+  {b:"values", model:"VALUES", dim:"creativity",  t:"Для меня ценны творчество и пространство для самовыражения."},
+  // Опора и самостоятельность (дифференциация по Боуэну — мягко)
+  {b:"world", model:"BOWEN", dim:"diff",    t:"Я способен сохранять свою позицию, даже когда она расходится с мнением большинства."},
+  {b:"world", model:"BOWEN", dim:"diff",    t:"Я могу спокойно и уважительно обозначить свою точку зрения близким, не подстраиваясь полностью и не идя на конфликт."},
+  {b:"world", model:"BOWEN", dim:"diff", rev:true, t:"Мне обычно проще согласиться с ожиданиями семьи или окружения, чем отстаивать собственный выбор."},
+  {b:"world", model:"BOWEN", dim:"anxiety", t:"Мысли о будущем, поступлении и выборе профессии нередко вызывают у меня сильное напряжение."},
+  {b:"world", model:"BOWEN", dim:"anxiety", t:"Я склонен остро переживать из-за оценок и того, что подумают обо мне другие."},
+  {b:"world", model:"BOWEN", dim:"diff",    t:"Даже в стрессовой ситуации я сохраняю способность рассуждать самостоятельно и не терять себя."},
+];
 
 const BLOCKS = [
-  {id:"fire",   emoji:"💥", title:"Что меня зажигает",   sub:"Интересы и энергия (RIASEC)"},
-  {id:"super",  emoji:"🦸", title:"Мои суперсилы",       sub:"Природные таланты (CliftonStrengths)"},
-  {id:"think",  emoji:"🧠", title:"Как я думаю",          sub:"Тип мышления (Big Five · O/C)"},
-  {id:"people", emoji:"🤝", title:"Как я с людьми",       sub:"DISC + роль в команде (Белбин)"},
-  {id:"values", emoji:"💎", title:"Что для меня важно",   sub:"Ценности и смысл"},
-  {id:"world",  emoji:"🌍", title:"Я и мир вокруг",       sub:"Самостоятельность и опора (мягко)"},
-  {id:"future", emoji:"🚀", title:"Профессии будущего",   sub:"Реакция на новые сферы"},
+  {id:"exec",      emoji:"⚙️", title:"Как ты добиваешься результата", sub:"Домен «Исполнение» · Gallup"},
+  {id:"influence", emoji:"🔥", title:"Как ты влияешь на людей",       sub:"Домен «Влияние» · Gallup"},
+  {id:"relate",    emoji:"🤝", title:"Как ты строишь отношения",      sub:"Домен «Отношения» · Gallup"},
+  {id:"strategy",  emoji:"🧠", title:"Как ты думаешь",                sub:"Домен «Стратегическое мышление» · Gallup"},
+  {id:"interests", emoji:"🧭", title:"Интересы и среда",              sub:"Профессиональные склонности · RIASEC"},
+  {id:"values",    emoji:"💎", title:"Ценности и смысл",              sub:"Что тобой движет"},
+  {id:"world",     emoji:"🌍", title:"Опора и самостоятельность",     sub:"Устойчивость и автономия · бережно"},
 ];
 
-const LIKERT = [
-  {v:2,  lab:"Это прямо про меня"},
-  {v:1,  lab:"Скорее да"},
-  {v:0,  lab:"Как когда / нейтрально"},
-  {v:-1, lab:"Скорее нет"},
-  {v:-2, lab:"Совсем не про меня"},
-];
-
-const Q = [
-  // ---- FIRE: RIASEC interests ----
-  {b:"fire", t:"Мне нравится разбираться, как устроены механизмы, техника или процессы своими руками.", model:"RIASEC", dim:"R"},
-  {b:"fire", t:"Я залипаю, когда решаю задачу, ищу закономерность или докапываюсь до причины.", model:"RIASEC", dim:"I"},
-  {b:"fire", t:"Мне важно творить: рисовать, писать, снимать, придумывать, оформлять.", model:"RIASEC", dim:"A"},
-  {b:"fire", t:"Я оживаю, когда помогаю людям, объясняю, поддерживаю кого-то.", model:"RIASEC", dim:"S"},
-  {b:"fire", t:"Меня драйвит вести за собой, убеждать, запускать свои идеи и проекты.", model:"RIASEC", dim:"E"},
-  {b:"fire", t:"Мне спокойно и приятно, когда есть порядок, система и понятные правила.", model:"RIASEC", dim:"C"},
-
-  // ---- SUPER: CliftonStrengths-style talents ----
-  {b:"super", t:"Я быстро нахожу суть в потоке информации и вижу связи, которых не видят другие.", model:"CLIFTON", dim:"analytic"},
-  {b:"super", t:"У меня легко рождаются новые идеи — их даже больше, чем я успеваю воплотить.", model:"CLIFTON", dim:"ideation"},
-  {b:"super", t:"Если я за что-то взялся(-ась), я довожу до конца, даже когда трудно.", model:"CLIFTON", dim:"achiever"},
-  {b:"super", t:"Мне легко почувствовать настроение человека и подобрать нужные слова.", model:"CLIFTON", dim:"empathy"},
-  {b:"super", t:"Я умею собрать людей вокруг общей цели и вдохновить их.", model:"CLIFTON", dim:"influence"},
-  {b:"super", t:"Мне нравится наводить порядок: планы, списки, чёткие шаги.", model:"CLIFTON", dim:"organizer"},
-
-  // ---- THINK: Big Five O + C, thinking style ----
-  {b:"think", t:"Меня тянет к новому и необычному — идеям, темам, впечатлениям.", model:"BIG5", dim:"O"},
-  {b:"think", t:"Я люблю сначала понять теорию и общую картину, а потом уже действовать.", model:"BIG5", dim:"O"},
-  {b:"think", t:"Я скорее человек практики: лучше попробовать руками, чем долго теоретизировать.", model:"BIG5", dim:"O", rev:true},
-  {b:"think", t:"Я заранее планирую и не люблю оставлять всё на последний момент.", model:"BIG5", dim:"C"},
-  {b:"think", t:"Мне важно доводить детали до аккуратности, даже мелкие.", model:"BIG5", dim:"C"},
-  {b:"think", t:"Я легко переключаюсь и импровизирую, даже без плана.", model:"BIG5", dim:"C", rev:true},
-
-  // ---- PEOPLE: DISC + Belbin roles ----
-  {b:"people", t:"В общем деле я быстро беру ответственность и говорю, что делать дальше.", model:"DISC", dim:"D", role:"leader"},
-  {b:"people", t:"Я заряжаю команду энергией, легко знакомлюсь и разряжаю обстановку.", model:"DISC", dim:"I", role:"generator"},
-  {b:"people", t:"Я — надёжная опора: спокойно поддержу, дослушаю, не подведу.", model:"DISC", dim:"S", role:"support"},
-  {b:"people", t:"Перед решением я взвешиваю факты, проверяю детали и риски.", model:"DISC", dim:"C", role:"analyst"},
-  {b:"people", t:"В споре мне важнее найти рабочее решение, чем сохранить всеобщий комфорт.", model:"DISC", dim:"D", role:"leader"},
-  {b:"people", t:"Я замечаю, когда кому-то в группе некомфортно, и стараюсь это сгладить.", model:"DISC", dim:"S", role:"support"},
-
-  // ---- VALUES ----
-  {b:"values", t:"Мне важно, чтобы моё дело приносило пользу людям или миру.", model:"VALUES", dim:"impact"},
-  {b:"values", t:"Для меня важны свобода и возможность выбирать свой путь.", model:"VALUES", dim:"freedom"},
-  {b:"values", t:"Мне важны стабильность и уверенность в завтрашнем дне.", model:"VALUES", dim:"stability"},
-  {b:"values", t:"Меня мотивируют рост, достижения и признание результата.", model:"VALUES", dim:"achievement"},
-  {b:"values", t:"Мне важно постоянно узнавать новое и развиваться.", model:"VALUES", dim:"growth"},
-  {b:"values", t:"Для меня ценно творчество и возможность самовыражения.", model:"VALUES", dim:"creativity"},
-
-  // ---- WORLD: Bowen differentiation (gentle) + anxiety signal ----
-  {b:"world", t:"Я умею оставаться при своём мнении, даже когда большинство думает иначе.", model:"BOWEN", dim:"diff"},
-  {b:"world", t:"Я могу спокойно объяснить свою позицию близким, не ссорясь и не подстраиваясь полностью.", model:"BOWEN", dim:"diff"},
-  {b:"world", t:"Часто мне проще согласиться с семьёй/друзьями, чем отстоять своё.", model:"BOWEN", dim:"diff", rev:true},
-  {b:"world", t:"Мысли о будущем и поступлении часто вызывают у меня сильную тревогу.", model:"BOWEN", dim:"anxiety"},
-  {b:"world", t:"Я сильно переживаю из-за оценок и того, что подумают другие.", model:"BOWEN", dim:"anxiety"},
-  {b:"world", t:"Даже в стрессовой ситуации я обычно могу собраться и думать своей головой.", model:"BOWEN", dim:"diff"},
-
-  // ---- FUTURE: reaction to new fields (RIASEC-ish flavor) ----
-  {b:"future", t:"Мне интересно, как искусственный интеллект меняет профессии и жизнь.", model:"FUTURE", dim:"tech"},
-  {b:"future", t:"Меня привлекает работа с данными: находить закономерности в цифрах.", model:"FUTURE", dim:"data"},
-  {b:"future", t:"Мне любопытны биотех, генетика, медицина будущего, нейротехнологии.", model:"FUTURE", dim:"bio"},
-  {b:"future", t:"Мне близка идея создавать удобные продукты и заботиться об опыте людей (дизайн).", model:"FUTURE", dim:"design"},
-  {b:"future", t:"Меня волнуют экология, зелёная энергетика и устойчивое развитие.", model:"FUTURE", dim:"green"},
-  {b:"future", t:"Мне интересно создавать контент и строить аудиторию (креаторская экономика).", model:"FUTURE", dim:"creator"},
-];
-
-/* attach block index + id to each question */
+/* Собираем линейный список вопросов: сначала 4 домена (34 темы), затем доп.блоки */
+const Q = [];
+["exec","influence","relate","strategy"].forEach(dom=>{
+  Object.keys(THEMES).filter(k=>THEMES[k].d===dom).forEach(k=>{
+    Q.push({b:dom, model:"GALLUP", dim:k, domain:dom, t:THEMES[k].stmt});
+  });
+});
+EXTRA.forEach(q=>Q.push(q));
 Q.forEach((q,i)=>{ q.i=i; });
 const blockIndexOf = id => BLOCKS.findIndex(b=>b.id===id);
 
+const LIKERT = [
+  {v:2,  lab:"Это точно про меня"},
+  {v:1,  lab:"Скорее про меня"},
+  {v:0,  lab:"И да, и нет"},
+  {v:-1, lab:"Скорее не про меня"},
+  {v:-2, lab:"Это не про меня"},
+];
+
 /* ================= CONFIG ================= */
-/* Куда отправлять результаты, чтобы организатор их видел.
-   Вставьте сюда URL веб-приложения Google Apps Script (см. career/apps-script.gs).
-   Пока пусто — результаты НЕ отправляются, работает только локальный отчёт. */
+/* URL веб-приложения Google Apps Script (см. career/apps-script.gs).
+   Пока пусто — результаты не отправляются, работает только локальный отчёт. */
 const SUBMIT_URL = "";
 
 /* ================= STATE ================= */
-const KEY="career_map_v1";
-let state = load() || { answers:{}, pos:0, seenInsight:{}, identity:{name:"",klass:""}, sent:false };
+const KEY="career_map_v2";
+let state = load() || newState();
 if(!state.identity) state.identity={name:"",klass:""};
-
+function newState(){ return {answers:{}, pos:0, seenInsight:{}, identity:{name:"",klass:""}, sent:false}; }
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
 function answeredCount(){ return Object.keys(state.answers).length; }
@@ -337,11 +358,9 @@ function answeredCount(){ return Object.keys(state.answers).length; }
 const $=s=>document.querySelector(s);
 const intro=$("#intro"), test=$("#test"), report=$("#report");
 
-/* build islands */
 const islandsEl=$("#islands");
-BLOCKS.forEach(b=>{ const d=document.createElement("div"); d.className="isl"; d.innerHTML="<i></i>"; islandsEl.appendChild(d); });
+BLOCKS.forEach(()=>{ const d=document.createElement("div"); d.className="isl"; d.innerHTML="<i></i>"; islandsEl.appendChild(d); });
 
-/* resume availability + prefill identity */
 if(answeredCount()>0){ $("#resumeBtn").classList.remove("hide"); }
 if(state.identity && state.identity.name){ $("#fName").value=state.identity.name; }
 if(state.identity && state.identity.klass){ $("#fClass").value=state.identity.klass; }
@@ -350,27 +369,23 @@ $("#startBtn").onclick=()=>{
   const name=$("#fName").value.trim();
   if(!name){ $("#idErr").classList.remove("hide"); $("#fName").focus(); return; }
   $("#idErr").classList.add("hide");
-  state={answers:{}, pos:0, seenInsight:{}, identity:{name:name, klass:$("#fClass").value}, sent:false};
+  state=newState(); state.identity={name:name, klass:$("#fClass").value};
   save(); goTest();
 };
-$("#resumeBtn").onclick=()=>{ goTest(); };
+$("#resumeBtn").onclick=()=>goTest();
 
 function goTest(){ intro.classList.add("hide"); report.classList.add("hide"); test.classList.remove("hide"); render(); window.scrollTo(0,0); }
 
-/* ================= RENDER QUESTION ================= */
+/* ================= RENDER ================= */
 function render(){
   const q=Q[state.pos];
   const bi=blockIndexOf(q.b);
   const block=BLOCKS[bi];
 
-  // progress islands: fill by fraction of answered in each block
   BLOCKS.forEach((b,idx)=>{
     const qs=Q.filter(x=>x.b===b.id);
     const done=qs.filter(x=>state.answers[x.i]!==undefined).length;
-    const el=islandsEl.children[idx];
-    const frac=done/qs.length;
-    el.querySelector("i").style.width=(frac*100)+"%";
-    el.classList.toggle("done", frac>=1 && idx<bi || (idx===bi && frac>=1));
+    islandsEl.children[idx].querySelector("i").style.width=(done/qs.length*100)+"%";
   });
 
   $("#blockEmoji").textContent=block.emoji;
@@ -391,14 +406,11 @@ function render(){
   });
 
   $("#nextBtn").disabled = cur===undefined;
-  $("#nextBtn").textContent = (state.pos===Q.length-1) ? "Показать мою карту ✨" : "Дальше →";
+  $("#nextBtn").textContent = (state.pos===Q.length-1) ? "Показать мой профиль ✨" : "Дальше →";
   $("#backBtn").style.visibility = state.pos===0 ? "hidden":"visible";
-
-  // hide insight unless already earned for this block at this moment
   $("#insightBox").classList.add("hide");
 }
 
-/* micro-insight after finishing a block */
 function maybeInsight(q){
   const qs=Q.filter(x=>x.b===q.b);
   const allDone=qs.every(x=>state.answers[x.i]!==undefined);
@@ -409,58 +421,24 @@ function maybeInsight(q){
     box.classList.remove("hide");
   }
 }
-
-function topDim(qs){
-  const acc={};
-  qs.forEach(x=>{ let v=state.answers[x.i]||0; if(x.rev) v=-v; acc[x.dim]=(acc[x.dim]||0)+v; });
-  return Object.entries(acc).sort((a,b)=>b[1]-a[1])[0]?.[0];
-}
 function insightFor(blockId){
   const qs=Q.filter(x=>x.b===blockId);
-  const d=topDim(qs);
-  const map={
-    fire:{R:"Ты любишь действовать руками и видеть конкретный результат — это сильная практическая жилка.",
-          I:"Заметно, что ты быстро находишь суть и любишь докапываться до причин — это редкий аналитический талант.",
-          A:"У тебя живое творческое начало — ты создаёшь новое там, где другие просто повторяют.",
-          S:"Ты по-настоящему включаешься, когда помогаешь людям — это большая человеческая сила.",
-          E:"В тебе есть энергия вести за собой и запускать идеи — задатки лидера.",
-          C:"Тебе легко даётся порядок и система — на таких людей всегда можно опереться."},
-    super:{analytic:"Ты быстро видишь связи и суть — это талант аналитика.",
-           ideation:"У тебя фонтан идей — ты генератор, вокруг которого рождается новое.",
-           achiever:"Ты умеешь доводить до конца — это суперсила достигатора.",
-           empathy:"Ты тонко чувствуешь людей — это редкая эмпатия и сила.",
-           influence:"Ты умеешь вдохновлять и объединять — это лидерское влияние.",
-           organizer:"Ты мастерски наводишь порядок — на тебе держится структура."},
-    think:{O:"Тебе близко думать масштабно, любить идеи и новое — это широкий ум.",
-           C:"Ты собранный и внимательный к деталям — на такую основательность можно положиться."},
-    people:{D:"В команде ты берёшь штурвал — люди чувствуют твою решительность.",
-            I:"Ты заряжаешь людей и создаёшь атмосферу — это ценно в любой команде.",
-            S:"Ты — надёжная опора команды, рядом с тобой спокойно.",
-            C:"Ты вдумчивый аналитик команды — замечаешь то, что другие пропускают."},
-    values:{impact:"Тебе важно приносить пользу — это придаёт смысл любому делу.",
-            freedom:"Для тебя важна свобода выбирать свой путь — держись этого.",
-            stability:"Тебе важна опора и стабильность — это разумно и по-взрослому.",
-            achievement:"Тебя двигают рост и достижения — отличное топливо.",
-            growth:"Ты любишь развиваться — это гарантия, что ты не остановишься.",
-            creativity:"Тебе важно самовыражение — береги этот творческий огонь."},
-    world:{diff:"Ты умеешь слышать себя рядом с мнением других — это признак взрослеющей самостоятельности.",
-           anxiety:"Ты многое пропускаешь через себя и переживаешь о будущем — так чувствует себя очень много ребят, и это нормально. У тебя точно есть опоры внутри."},
-    future:{tech:"Тебя тянет к технологиям будущего — это billet в растущие сферы.",
-            data:"Тебе интересны данные и закономерности — очень востребованный склад ума.",
-            bio:"Тебя манит наука о жизни — это фронтир будущего.",
-            design:"Тебе близко создавать удобный опыт для людей — это про дизайн будущего.",
-            green:"Тебя волнует будущее планеты — это ценности целого поколения профессий.",
-            creator:"Тебе интересно создавать и собирать аудиторию — это про новую экономику."},
+  let best=null,bv=-99;
+  qs.forEach(x=>{ let v=state.answers[x.i]||0; if(x.rev)v=-v; if(v>bv){bv=v;best=x;} });
+  if(best.model==="GALLUP"){
+    return "🌱 <b>Заметно:</b> одна из твоих опор в этом домене — <b>"+THEMES[best.dim].name+"</b>: "+THEMES[best.dim].desc;
+  }
+  const maps={
+    interests:{R:"тебе близка практическая работа с осязаемым результатом.",I:"у тебя выражена исследовательская, аналитическая жилка.",A:"в тебе сильно творческое, авторское начало.",S:"тебя наполняет работа с людьми и их развитием.",E:"в тебе заметна предпринимательская, лидерская энергия.",C:"тебе даётся системность и точность."},
+    values:{impact:"тобой движет стремление приносить пользу.",freedom:"для тебя важна автономия и свобода выбора.",stability:"ты ценишь надёжную опору и стабильность.",achievement:"тебя ведут амбиции и рост.",growth:"тебя питает постоянное развитие.",creativity:"тебе важно пространство для творчества."},
+    world:{diff:"ты умеешь слышать себя рядом с мнением других — это признак зрелой самостоятельности.",anxiety:"тема будущего сейчас откликается тревогой — так чувствует себя очень много ребят, и внутри у тебя точно есть опоры, на которые можно встать."},
   };
-  const txt=(map[blockId]&&map[blockId][d]) || "Ты стал(а) чуть лучше понимать себя — и это главное.";
-  return "🌟 <b>Мини-инсайт:</b> "+txt;
+  let dim=best.dim; if(best.rev) dim="diff";
+  const txt=(maps[blockId]&&maps[blockId][dim]) || "ты стал точнее понимать себя.";
+  return "🌱 <b>Мини-инсайт:</b> "+txt;
 }
 
-/* ================= NAV ================= */
-$("#nextBtn").onclick=()=>{
-  if(state.pos===Q.length-1){ showReport(); return; }
-  state.pos++; save(); render(); window.scrollTo(0,0);
-};
+$("#nextBtn").onclick=()=>{ if(state.pos===Q.length-1){ showReport(); return; } state.pos++; save(); render(); window.scrollTo(0,0); };
 $("#backBtn").onclick=()=>{ if(state.pos>0){ state.pos--; save(); render(); window.scrollTo(0,0); } };
 
 /* ================= SCORING ================= */
@@ -473,303 +451,288 @@ function scores(){
     if(!acc[key]) acc[key]={sum:0,n:0};
     acc[key].sum+=v; acc[key].n++;
   });
-  // normalize each to 0..100 (v in [-2..2])
   const out={};
   Object.entries(acc).forEach(([k,o])=>{ out[k]=Math.round(((o.sum/o.n)+2)/4*100); });
   return out;
 }
-function pick(prefix, s){
+function pick(prefix,s){
   return Object.entries(s).filter(([k])=>k.startsWith(prefix+":"))
-    .map(([k,v])=>({dim:k.split(":")[1], v})).sort((a,b)=>b.v-a.v);
+    .map(([k,v])=>({dim:k.split(":")[1],v})).sort((a,b)=>b.v-a.v);
 }
+function signatureThemes(s){
+  return Object.keys(THEMES).map(k=>({k, v:s["GALLUP:"+k]!==undefined?s["GALLUP:"+k]:0})).sort((a,b)=>b.v-a.v);
+}
+function domainScores(s){
+  const acc={};
+  Object.keys(DOMAINS).forEach(d=>{
+    const keys=Object.keys(THEMES).filter(k=>THEMES[k].d===d);
+    const vals=keys.map(k=>s["GALLUP:"+k]!==undefined?s["GALLUP:"+k]:50);
+    acc[d]=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+  });
+  return acc;
+}
+function dominantDomain(s){ const ds=domainScores(s); return Object.entries(ds).sort((a,b)=>b[1]-a[1])[0][0]; }
 
-/* labels */
 const RIASEC_LABEL={R:"Практик (Realistic)",I:"Исследователь (Investigative)",A:"Творец (Artistic)",S:"Помощник (Social)",E:"Предприниматель (Enterprising)",C:"Организатор (Conventional)"};
-const DISC_LABEL={D:"Драйвер (D)",I:"Вдохновитель (I)",S:"Опора (S)",C:"Аналитик (C)"};
-const ROLE_LABEL={leader:"Лидер",generator:"Генератор идей",support:"Командный игрок",analyst:"Аналитик"};
-const CLIFTON_LABEL={analytic:"Аналитик",ideation:"Генератор идей",achiever:"Достигатор",empathy:"Эмпат",influence:"Вдохновитель",organizer:"Организатор"};
-const CLIFTON_DESC={
-  analytic:"видишь суть и связи в потоке информации",
-  ideation:"легко рождаешь новые идеи и подходы",
-  achiever:"доводишь начатое до конца, даже когда трудно",
-  empathy:"чувствуешь людей и находишь нужные слова",
-  influence:"вдохновляешь и объединяешь вокруг цели",
-  organizer:"наводишь порядок и строишь понятную структуру",
+const VALUE_LABEL={impact:"польза",freedom:"свобода",stability:"стабильность",achievement:"достижения",growth:"развитие",creativity:"творчество"};
+const ROLE_BY_DOMAIN={
+  exec:{t:"Реализатор",       d:"ты превращаешь идеи в результат и доводишь начатое до конца — команда опирается на твою надёжность."},
+  influence:{t:"Лидер и драйвер", d:"ты задаёшь темп, убеждаешь и ведёшь людей за собой к цели."},
+  relate:{t:"Связующее звено",  d:"на тебе держатся отношения в команде: ты объединяешь людей и создаёшь доверие."},
+  strategy:{t:"Аналитик-стратег", d:"ты видишь картину целиком, находишь пути и задаёшь направление мысли."},
 };
 
-/* professions catalog: tagged by RIASEC letters + future dims */
+/* профессии: tags — RIASEC + future; dom — созвучные домены Gallup */
 const PROFESSIONS=[
-  {t:"Промт-инженер / AI-специалист", tags:["I","tech","data"], skills:"аналитика, любопытство, ясная речь", learn:"информатика, математика, английский, логика", neighbor:"AI product-менеджер"},
-  {t:"Data-аналитик / Data Scientist", tags:["I","C","data"], skills:"внимание к цифрам, усидчивость, логика", learn:"математика, статистика, программирование", neighbor:"Бизнес-аналитик"},
-  {t:"UX/продуктовый дизайнер", tags:["A","S","design"], skills:"эмпатия, эстетика, системность", learn:"дизайн, психология, немного кода", neighbor:"Продуктовый менеджер"},
-  {t:"Биотехнолог / генетик", tags:["I","bio"], skills:"дотошность, любовь к науке", learn:"биология, химия, математика", neighbor:"Биоинформатик"},
-  {t:"Нейротехнолог / когнитивист", tags:["I","bio","tech"], skills:"аналитика, широкий кругозор", learn:"биология, физика, программирование", neighbor:"Исследователь ИИ"},
-  {t:"Специалист по кибербезопасности", tags:["I","C","tech"], skills:"логика, внимание, ответственность", learn:"информатика, математика, английский", neighbor:"Сетевой инженер"},
-  {t:"Инженер зелёной энергетики", tags:["R","I","green"], skills:"практика, системность, забота о планете", learn:"физика, математика, экология", neighbor:"Эксперт по устойчивому развитию"},
-  {t:"Психолог / профориентолог", tags:["S","I"], skills:"эмпатия, наблюдательность, речь", learn:"биология, обществознание, психология", neighbor:"Коуч / карьерный консультант"},
-  {t:"Врач / медицина будущего", tags:["S","I","bio"], skills:"эмпатия, стойкость, дотошность", learn:"биология, химия, физика", neighbor:"Биомедицинский инженер"},
-  {t:"Предприниматель / стартапер", tags:["E","A"], skills:"инициатива, энергия, гибкость", learn:"экономика, коммуникация, финансы", neighbor:"Продуктовый менеджер"},
-  {t:"Креатор / контент-режиссёр", tags:["A","E","creator"], skills:"креатив, вкус, смелость", learn:"медиа, дизайн, сторителлинг", neighbor:"Бренд-стратег"},
-  {t:"Дизайнер / арт-директор", tags:["A","creator"], skills:"насмотренность, воображение", learn:"рисунок, дизайн, история искусства", neighbor:"Иллюстратор / motion-дизайнер"},
-  {t:"Педагог нового типа / EdTech", tags:["S","E"], skills:"объяснять, вдохновлять, вести", learn:"предмет по выбору, психология, медиа", neighbor:"Методист онлайн-курсов"},
-  {t:"Робототехник / инженер", tags:["R","I","tech"], skills:"руки+голова, точность", learn:"физика, математика, программирование", neighbor:"Инженер-механик"},
-  {t:"Специалист по цифровой этике", tags:["I","S","tech"], skills:"аналитика, ценности, аргументация", learn:"обществознание, философия, право, IT", neighbor:"Юрист в сфере технологий"},
-  {t:"Проджект-/операционный менеджер", tags:["C","E","S"], skills:"организованность, ответственность", learn:"менеджмент, коммуникация, аналитика", neighbor:"Продуктовый менеджер"},
+  {t:"Промт-инженер / AI-специалист", dom:["strategy"], tags:["I","tech","data"], skills:"аналитика, любознательность, ясность формулировок", learn:"информатика, математика, английский, логика", neighbor:"AI product-менеджер"},
+  {t:"Data Scientist / аналитик данных", dom:["strategy","exec"], tags:["I","C","data"], skills:"работа с цифрами, усидчивость, статистическое мышление", learn:"математика, статистика, программирование", neighbor:"Бизнес-аналитик"},
+  {t:"UX/продуктовый дизайнер", dom:["relate","strategy"], tags:["A","S","design"], skills:"эмпатия, системность, эстетика", learn:"дизайн, психология, основы кода", neighbor:"Продуктовый менеджер"},
+  {t:"Биотехнолог / генетик", dom:["strategy"], tags:["I","bio"], skills:"научная дотошность, терпение", learn:"биология, химия, математика", neighbor:"Биоинформатик"},
+  {t:"Нейротехнолог / когнитивист", dom:["strategy"], tags:["I","bio","tech"], skills:"аналитика, широкий кругозор", learn:"биология, физика, программирование", neighbor:"Исследователь ИИ"},
+  {t:"Специалист по кибербезопасности", dom:["exec","strategy"], tags:["I","C","tech"], skills:"логика, внимательность, ответственность", learn:"информатика, математика, английский", neighbor:"Сетевой инженер"},
+  {t:"Инженер зелёной энергетики", dom:["exec","strategy"], tags:["R","I","green"], skills:"инженерное мышление, системность", learn:"физика, математика, экология", neighbor:"Эксперт по устойчивому развитию"},
+  {t:"Психолог / карьерный консультант", dom:["relate"], tags:["S","I"], skills:"эмпатия, наблюдательность, речь", learn:"биология, обществознание, психология", neighbor:"Коуч / фасилитатор"},
+  {t:"Врач / медицина будущего", dom:["relate","exec"], tags:["S","I","bio"], skills:"эмпатия, стойкость, дисциплина", learn:"биология, химия, физика", neighbor:"Биомедицинский инженер"},
+  {t:"Предприниматель / фаундер стартапа", dom:["influence"], tags:["E","A"], skills:"инициатива, убеждение, устойчивость к риску", learn:"экономика, коммуникация, финансы", neighbor:"Продуктовый менеджер"},
+  {t:"Креатор / медиапродюсер", dom:["influence"], tags:["A","E","creator"], skills:"креатив, вкус, смелость публичности", learn:"медиа, дизайн, сторителлинг", neighbor:"Бренд-стратег"},
+  {t:"Арт-директор / дизайнер", dom:["strategy","influence"], tags:["A","creator"], skills:"насмотренность, воображение", learn:"рисунок, дизайн, история искусства", neighbor:"Motion-дизайнер / иллюстратор"},
+  {t:"Педагог нового типа / EdTech", dom:["relate","influence"], tags:["S","E"], skills:"умение объяснять, вдохновлять, вести", learn:"профильный предмет, психология, медиа", neighbor:"Методист онлайн-образования"},
+  {t:"Робототехник / инженер", dom:["exec","strategy"], tags:["R","I","tech"], skills:"инженерная точность, руки и голова", learn:"физика, математика, программирование", neighbor:"Инженер-механик"},
+  {t:"Специалист по цифровой этике и праву", dom:["strategy","relate"], tags:["I","S","tech"], skills:"аналитика, ценности, аргументация", learn:"обществознание, философия, право, IT", neighbor:"Юрист в сфере технологий"},
+  {t:"Проджект-/операционный менеджер", dom:["exec","influence"], tags:["C","E","S"], skills:"организованность, ответственность, координация", learn:"менеджмент, коммуникация, аналитика", neighbor:"Продуктовый менеджер"},
 ];
 
-/* countries by profile */
 const COUNTRIES=[
-  {name:"Великобритания",flag:"🇬🇧",why:"глубина и ранняя специализация — идеально, если ты любишь копать одну тему вглубь",prog:"A-levels → узкий бакалавриат, сильные исследовательские вузы",step:"посмотри требования UCAS и 2–3 профильных предмета",tagFor:["I","A","depth"]},
-  {name:"Нидерланды",flag:"🇳🇱",why:"практико-ориентированность и проекты с первого курса — для тех, кто любит применять знания",prog:"бакалавриат на английском, много practice-based программ",step:"изучи программы на studyinnl и уровень английского (IELTS)",tagFor:["R","E","practice"]},
-  {name:"Германия",flag:"🇩🇪",why:"инженерия, наука и дуальное образование — сильно для технарей и исследователей",prog:"бесплатные гос. вузы, дуальные программы (учёба+практика)",step:"проверь Studienkolleg и требования по немецкому/английскому",tagFor:["R","I","tech"]},
-  {name:"США",flag:"🇺🇸",why:"гибкость и широта: можно не выбирать всё сразу, пробовать разные направления",prog:"liberal arts, поздний выбор специализации, кампусная жизнь",step:"познакомься с форматом SAT/эссе и системой мажоров",tagFor:["A","E","freedom"]},
-  {name:"Канада",flag:"🇨🇦",why:"баланс качества, безопасности и открытости — мягкий вход в международное образование",prog:"co-op программы (учёба + оплачиваемая практика)",step:"посмотри co-op вузы и требования по английскому",tagFor:["S","C","balance"]},
+  {name:"Великобритания",flag:"🇬🇧",why:"глубина и ранняя специализация — если тебе близко копать одну область вглубь",prog:"A-levels → узкопрофильный бакалавриат, сильные исследовательские университеты",step:"изучи требования UCAS и 2–3 профильных предмета",tagFor:["I","A","depth"]},
+  {name:"Нидерланды",flag:"🇳🇱",why:"практико-ориентированность и проектная работа с первого курса",prog:"бакалавриат на английском, много practice-based программ",step:"посмотри программы на studyinnl и уровень английского (IELTS)",tagFor:["R","E","practice"]},
+  {name:"Германия",flag:"🇩🇪",why:"инженерия, наука и дуальное образование — сильно для технарей и исследователей",prog:"государственные вузы, дуальные программы «учёба + практика»",step:"проверь Studienkolleg и требования по немецкому/английскому",tagFor:["R","I","tech"]},
+  {name:"США",flag:"🇺🇸",why:"гибкость и широта: специализацию можно выбрать не сразу, пробуя разное",prog:"liberal arts, поздний выбор мейджора, развитая кампусная среда",step:"познакомься с форматом SAT/эссе и системой мейджоров",tagFor:["A","E","freedom"]},
+  {name:"Канада",flag:"🇨🇦",why:"баланс качества, безопасности и открытости — мягкий вход в международное образование",prog:"co-op программы (учёба + оплачиваемая практика)",step:"посмотри co-op университеты и требования по английскому",tagFor:["S","C","balance"]},
 ];
-
-/* ================= SUBMIT TO ORGANIZER ================= */
-function buildPayload(s){
-  const clifton=pick("CLIFTON",s).slice(0,5).map(c=>CLIFTON_LABEL[c.dim]);
-  const disc=pick("DISC",s)[0];
-  const riasec=pick("RIASEC",s).slice(0,3).map(r=>RIASEC_LABEL[r.dim]);
-  const roleQ={leader:0,generator:0,support:0,analyst:0};
-  Q.filter(q=>q.role).forEach(q=>{ roleQ[q.role]+=(state.answers[q.i]||0); });
-  const topRole=Object.entries(roleQ).sort((a,b)=>b[1]-a[1])[0][0];
-  const profs=topProfessions(s).map(p=>p.t);
-  const countries=topCountries(s).map(c=>c.name);
-  // human-readable answers keyed by question text
-  const answers={};
-  Q.forEach(q=>{ if(state.answers[q.i]!==undefined){
-    const lab=(LIKERT.find(l=>l.v===state.answers[q.i])||{}).lab;
-    answers[q.t]=lab;
-  }});
-  return {
-    name: (state.identity&&state.identity.name)||"",
-    klass:(state.identity&&state.identity.klass)||"",
-    ts:new Date().toISOString(),
-    strengths:clifton,
-    disc: disc?DISC_LABEL[disc.dim]:"",
-    role: ROLE_LABEL[topRole],
-    riasec, professions:profs, countries,
-    anxiety: s["BOWEN:anxiety"]!==undefined?s["BOWEN:anxiety"]:"",
-    diff: s["BOWEN:diff"]!==undefined?s["BOWEN:diff"]:"",
-    answers
-  };
-}
-let sendState="idle"; // idle | pending | ok | fail
-function submitResults(s){
-  if(!SUBMIT_URL){ sendState="idle"; return; }        // not configured yet
-  if(state.sent){ sendState="ok"; return; }            // already sent this session
-  sendState="pending"; renderSendStatus();
-  const payload=buildPayload(s);
-  fetch(SUBMIT_URL,{
-    method:"POST",
-    mode:"no-cors",                                    // Apps Script write; response not read
-    headers:{"Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify(payload)
-  }).then(()=>{
-    state.sent=true; save(); sendState="ok"; renderSendStatus();
-  }).catch(()=>{
-    sendState="fail"; renderSendStatus();
-  });
-}
-function renderSendStatus(){
-  const el=document.querySelector("#sendStatus");
-  if(!el) return;
-  if(!SUBMIT_URL){ el.className="sendstatus"; el.style.display="none"; return; }
-  el.style.display="block";
-  if(sendState==="pending"){ el.className="sendstatus pending"; el.textContent="⏳ Отправляем результаты организатору…"; }
-  else if(sendState==="ok"){ el.className="sendstatus ok"; el.textContent="✅ Результаты отправлены — наставник их увидит."; }
-  else if(sendState==="fail"){ el.className="sendstatus fail"; el.innerHTML="⚠️ Не удалось отправить. <a href='#' id='retrySend' class='footlink'>Попробовать ещё раз</a>"; }
-  else { el.style.display="none"; }
-  const rt=document.querySelector("#retrySend");
-  if(rt) rt.onclick=(e)=>{ e.preventDefault(); submitResults(scores()); };
-}
-
-/* ================= REPORT ================= */
-let reportView="student";
-function showReport(){
-  test.classList.add("hide"); report.classList.remove("hide");
-  reportView="student"; renderReport(); window.scrollTo(0,0);
-  submitResults(scores());
-}
-function renderReport(){
-  const s=scores();
-  report.innerHTML =
-    '<div class="card noprint" style="padding:16px">'+
-      '<div class="tabbar">'+
-        '<div class="tab '+(reportView==="student"?"on":"")+'" data-v="student">🧑‍🎓 Отчёт для ученика</div>'+
-        '<div class="tab '+(reportView==="parent"?"on":"")+'" data-v="parent">👨‍👩‍👧 Отчёт для родителя</div>'+
-      '</div>'+
-      '<div class="row"><button class="btn alt" id="pdfBtn">⬇︎ Скачать PDF</button>'+
-      '<button class="btn ghost" id="restartBtn">Пройти заново</button></div>'+
-      '<div id="sendStatus" class="sendstatus" style="display:none"></div>'+
-    '</div>'+
-    (reportView==="student" ? studentReport(s) : parentReport(s));
-
-  report.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{ reportView=t.dataset.v; renderReport(); window.scrollTo(0,0); });
-  renderSendStatus();
-  $("#pdfBtn").onclick=()=>window.print();
-  $("#restartBtn").onclick=()=>{ if(confirm("Начать тест заново? Текущие ответы сотрутся.")){ const id=state.identity||{name:"",klass:""}; state={answers:{},pos:0,seenInsight:{},identity:id,sent:false}; save(); report.classList.add("hide"); intro.classList.remove("hide"); window.scrollTo(0,0);} };
-}
-
-function bar(name,val){
-  return '<div class="barrow"><div class="name">'+name+'</div><div class="bar"><i style="width:'+val+'%"></i></div><div class="val">'+val+'</div></div>';
-}
 
 function topProfessions(s){
   const riasec=pick("RIASEC",s), fut=pick("FUTURE",s);
   const topLetters=riasec.slice(0,3).map(x=>x.dim);
   const topFut=fut.slice(0,3).map(x=>x.dim);
-  const wanted=new Set([...topLetters,...topFut]);
+  const dom=dominantDomain(s);
   const scored=PROFESSIONS.map(p=>{
-    let sc=0; p.tags.forEach(tg=>{ if(topLetters.includes(tg)) sc+=2; if(topFut.includes(tg)) sc+=2; if(wanted.has(tg)) sc+=1; });
+    let sc=0;
+    p.tags.forEach(tg=>{ if(topLetters.includes(tg)) sc+=2; if(topFut.includes(tg)) sc+=2; });
+    if(p.dom.includes(dom)) sc+=3;
     return {p,sc};
   }).sort((a,b)=>b.sc-a.sc);
   return scored.slice(0,6).map(x=>x.p);
 }
 function topCountries(s){
-  const riasec=pick("RIASEC",s);
-  const top=riasec.slice(0,3).map(x=>x.dim);
+  const riasec=pick("RIASEC",s); const top=riasec.slice(0,3).map(x=>x.dim);
   const values=pick("VALUES",s).slice(0,2).map(x=>x.dim);
   const flags=new Set(top);
   if(values.includes("freedom")) flags.add("freedom");
   if(values.includes("stability")) flags.add("balance");
-  const scored=COUNTRIES.map(c=>{
-    let sc=0; c.tagFor.forEach(tg=>{ if(flags.has(tg)) sc+=2; if(top.includes(tg)) sc+=1; });
-    return {c,sc};
-  }).sort((a,b)=>b.sc-a.sc);
+  const scored=COUNTRIES.map(c=>{ let sc=0; c.tagFor.forEach(tg=>{ if(flags.has(tg)) sc+=2; if(top.includes(tg)) sc+=1; }); return {c,sc}; }).sort((a,b)=>b.sc-a.sc);
   return scored.slice(0,3).map(x=>x.c);
 }
 
+/* ================= SUBMIT ================= */
+function buildPayload(s){
+  const sig=signatureThemes(s).slice(0,5).map(x=>THEMES[x.k].name);
+  const ds=domainScores(s);
+  const dom=dominantDomain(s);
+  const answers={};
+  Q.forEach(q=>{ if(state.answers[q.i]!==undefined){ answers[q.t]=(LIKERT.find(l=>l.v===state.answers[q.i])||{}).lab; } });
+  return {
+    name:(state.identity&&state.identity.name)||"", klass:(state.identity&&state.identity.klass)||"",
+    ts:new Date().toISOString(),
+    strengths:sig,
+    domain:DOMAINS[dom].name,
+    domains:"Исполнение "+ds.exec+" · Влияние "+ds.influence+" · Отношения "+ds.relate+" · Стратегия "+ds.strategy,
+    role:ROLE_BY_DOMAIN[dom].t,
+    riasec:pick("RIASEC",s).slice(0,3).map(r=>RIASEC_LABEL[r.dim]),
+    professions:topProfessions(s).map(p=>p.t),
+    countries:topCountries(s).map(c=>c.name),
+    anxiety:s["BOWEN:anxiety"]!==undefined?s["BOWEN:anxiety"]:"",
+    diff:s["BOWEN:diff"]!==undefined?s["BOWEN:diff"]:"",
+    answers
+  };
+}
+let sendState="idle";
+function submitResults(s){
+  if(!SUBMIT_URL){ sendState="idle"; return; }
+  if(state.sent){ sendState="ok"; return; }
+  sendState="pending"; renderSendStatus();
+  fetch(SUBMIT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(buildPayload(s))})
+    .then(()=>{ state.sent=true; save(); sendState="ok"; renderSendStatus(); })
+    .catch(()=>{ sendState="fail"; renderSendStatus(); });
+}
+function renderSendStatus(){
+  const el=$("#sendStatus"); if(!el) return;
+  if(!SUBMIT_URL){ el.style.display="none"; return; }
+  el.style.display="block";
+  if(sendState==="pending"){ el.className="sendstatus pending"; el.textContent="⏳ Отправляем результаты организатору…"; }
+  else if(sendState==="ok"){ el.className="sendstatus ok"; el.textContent="✅ Результаты отправлены — наставник их увидит."; }
+  else if(sendState==="fail"){ el.className="sendstatus fail"; el.innerHTML="⚠️ Не удалось отправить. <a href='#' id='retrySend' class='footlink'>Попробовать ещё раз</a>"; }
+  else { el.style.display="none"; }
+  const rt=$("#retrySend"); if(rt) rt.onclick=e=>{ e.preventDefault(); submitResults(scores()); };
+}
+
+/* ================= REPORT ================= */
+let reportView="student";
+function showReport(){ test.classList.add("hide"); report.classList.remove("hide"); reportView="student"; renderReport(); window.scrollTo(0,0); submitResults(scores()); }
+
+function renderReport(){
+  const s=scores();
+  report.innerHTML=
+    '<div class="card noprint" style="padding:16px">'+
+      '<div class="tabbar">'+
+        '<div class="tab '+(reportView==="student"?"on":"")+'" data-v="student">Отчёт для ученика</div>'+
+        '<div class="tab '+(reportView==="parent"?"on":"")+'" data-v="parent">Отчёт для родителя</div>'+
+      '</div>'+
+      '<div class="row"><button class="btn alt" id="pdfBtn">⬇︎ Скачать PDF</button>'+
+      '<button class="btn ghost" id="restartBtn">Пройти заново</button></div>'+
+      '<div id="sendStatus" class="sendstatus" style="display:none"></div>'+
+    '</div>'+
+    (reportView==="student"?studentReport(s):parentReport(s));
+  report.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{ reportView=t.dataset.v; renderReport(); window.scrollTo(0,0); });
+  renderSendStatus();
+  $("#pdfBtn").onclick=()=>window.print();
+  $("#restartBtn").onclick=()=>{ if(confirm("Пройти тест заново? Текущие ответы будут удалены.")){ const id=state.identity; state=newState(); state.identity=id; save(); report.classList.add("hide"); intro.classList.remove("hide"); window.scrollTo(0,0);} };
+}
+
+function domBar(name,val,color){
+  return '<div class="barrow"><div class="name">'+name+'</div><div class="bar"><i style="width:'+val+'%;background:'+color+'"></i></div><div class="val">'+val+'</div></div>';
+}
+
 function studentReport(s){
-  const clifton=pick("CLIFTON",s).slice(0,5);
-  const disc=pick("DISC",s);
-  const topDisc=disc[0];
+  const sig=signatureThemes(s).slice(0,5);
+  const ds=domainScores(s);
+  const dom=dominantDomain(s);
+  const role=ROLE_BY_DOMAIN[dom];
   const riasec=pick("RIASEC",s);
-  const roleQ={leader:0,generator:0,support:0,analyst:0};
-  Q.filter(q=>q.role).forEach(q=>{ let v=state.answers[q.i]||0; roleQ[q.role]+=v; });
-  const topRole=Object.entries(roleQ).sort((a,b)=>b[1]-a[1])[0][0];
   const profs=topProfessions(s);
   const countries=topCountries(s);
 
-  let supers=clifton.map(c=>
-    '<div class="superitem"><div class="t">🦸 '+CLIFTON_LABEL[c.dim]+'</div>'+
-    '<div class="muted" style="font-size:14px">Ты '+CLIFTON_DESC[c.dim]+'.</div></div>'
-  ).join("");
+  const sigCards=sig.map((x,i)=>{
+    const t=THEMES[x.k];
+    return '<div class="superitem"><div class="t">'+(i+1)+'. '+t.name+'<span class="badge '+t.d+'">'+DOMAINS[t.d].name+'</span></div>'+
+      '<div class="dsc">'+t.desc+'</div></div>';
+  }).join("");
 
-  let riasecBars=riasec.map(r=>bar(RIASEC_LABEL[r.dim], r.v)).join("");
+  const domOrder=Object.keys(DOMAINS).sort((a,b)=>ds[b]-ds[a]);
+  const domBars=domOrder.map(d=>domBar(DOMAINS[d].emoji+" "+DOMAINS[d].name, ds[d], DOMAINS[d].color)).join("");
+  const riasecBars=riasec.map(r=>domBar(RIASEC_LABEL[r.dim], r.v, "linear-gradient(90deg,var(--brand),var(--brand2))")).join("");
 
-  let profCards=profs.map(p=>
+  const profCards=profs.map(p=>
     '<div class="prof"><div class="pt">'+p.t+'</div>'+
-    '<div class="meta">💪 сильные стороны: '+p.skills+'<br>📚 что учить: '+p.learn+'</div>'+
-    '<div class="neighbor">🧭 профессия-сосед (запасной путь): <b>'+p.neighbor+'</b></div></div>'
-  ).join("");
-
-  let countryCards=countries.map(c=>
+    '<div class="meta">Сильные стороны: '+p.skills+'<br>Что учить: '+p.learn+'</div>'+
+    '<div class="neighbor">Смежное направление (запасной путь): <b>'+p.neighbor+'</b></div></div>').join("");
+  const countryCards=countries.map(c=>
     '<div class="country"><div class="flag">'+c.flag+'</div><div class="pt" style="font-weight:800;margin-top:4px">'+c.name+'</div>'+
     '<div class="muted" style="font-size:14px">'+c.why+'</div>'+
-    '<div class="meta" style="font-size:13px;margin-top:6px">🎓 '+c.prog+'<br>👉 первый шаг: '+c.step+'</div></div>'
-  ).join("");
+    '<div class="meta" style="font-size:13px;margin-top:6px">Формат: '+c.prog+'<br>Первый шаг: '+c.step+'</div></div>').join("");
 
   return '<div class="card">'+
-    '<span class="pill">🗺️ Твоя карта сильных сторон</span>'+
-    '<h1>Ты классный(-ая). И у тебя есть, на что опереться.</h1>'+
-    '<p class="lead">Вот что мы увидели о тебе. Это не приговор и не рамка — это стартовая карта, на которой много хороших дорог.</p>'+
+    '<span class="pill">🗺️ Твой профиль сильных сторон</span>'+
+    '<h1>Вот на что ты можешь опереться</h1>'+
+    '<p class="lead">Это не рамка и не приговор, а стартовая карта. Твои таланты — не то, что ты «должен развить», '+
+    'а то, что в тебе уже работает. Дальше вопрос лишь в том, куда это приложить.</p>'+
 
-    '<h3>🦸 Твои 5 суперсил</h3>'+
-    '<div class="super">'+supers+'</div>'+
+    '<h3>🏅 Твои 5 ведущих талантов</h3>'+
+    '<p class="muted">В терминологии Gallup — твои <b>signature themes</b>: они срабатывают у тебя чаще и естественнее всего.</p>'+
+    '<div class="super">'+sigCards+'</div>'+
 
-    '<h3>🧠 Как ты думаешь и как ты с людьми</h3>'+
-    '<p>В команде твой стиль — <b>'+DISC_LABEL[topDisc.dim]+'</b>, а любимая роль — <b>'+ROLE_LABEL[topRole]+'</b>. '+
-    'У каждой роли своя сила: лидер даёт направление, генератор — идеи, командный игрок — надёжность и тепло, аналитик — точность и здравый смысл.</p>'+
-    '<div class="card" style="box-shadow:none;margin-top:10px"><h3 style="margin-top:0">Твои интересы (RIASEC)</h3>'+riasecBars+'</div>'+
+    '<h3>🧩 Твои домены силы</h3>'+
+    '<p class="muted">Все таланты делятся на четыре домена. Твой ведущий — <b>'+DOMAINS[dom].name+'</b>.</p>'+
+    '<div class="card" style="box-shadow:none;margin-top:8px">'+domBars+
+    '<div class="domlead">'+DOMAINS[dom].meaning+'</div></div>'+
 
-    '<h3>💼 Профессии, которые тебе подойдут</h3>'+
-    '<p class="muted">У каждой — «профессия-сосед»: запасной путь, чтобы не было страха единственно верного выбора.</p>'+
+    '<h3>🤝 Как ты действуешь в команде</h3>'+
+    '<p>Твоя естественная роль — <b>'+role.t+'</b>: '+role.d+' Сильные команды складываются из разных ролей, '+
+    'и твоя — одна из ключевых.</p>'+
+
+    '<h3>🧭 Твои профессиональные интересы</h3>'+
+    '<div class="card" style="box-shadow:none;margin-top:6px">'+riasecBars+'</div>'+
+
+    '<h3>💼 Профессиональные направления</h3>'+
+    '<p class="muted">Подобраны по стыку талантов и интересов. У каждого — смежный путь, чтобы у выбора не было ощущения «всё или ничего».</p>'+
     '<div class="grid2">'+profCards+'</div>'+
 
-    '<h3>🌍 Где тебе будет хорошо расти</h3>'+
-    '<p class="muted">Это возможности, а не экзамен. Выбирай то, что откликается.</p>'+
+    '<h3>🌍 Среда, где тебе будет комфортно расти</h3>'+
+    '<p class="muted">Это возможности, а не вступительный барьер. Смотри на то, что откликается твоему профилю.</p>'+
     '<div class="grid2">'+countryCards+'</div>'+
 
-    '<h3>🛡️ Твоя суперсила против тревоги</h3>'+
-    '<div class="antifear"><p style="margin-top:0"><b>У тебя есть время.</b> Путей много, и почти любой выбор можно поправить по дороге. '+
-    'Ты не обязан(-а) знать всё уже сейчас — это нормально не знать. Ошибиться нельзя: можно только пробовать и узнавать себя. '+
-    'Твои сильные стороны останутся с тобой в любой профессии.</p></div>'+
+    '<h3>🛡️ Ресурс против тревоги</h3>'+
+    '<div class="antifear"><p style="margin-top:0">Выбор в 17–19 лет кажется решением на всю жизнь — но это не так. '+
+    'Карьерные траектории почти всегда нелинейны, и большинство решений можно скорректировать по ходу. '+
+    'У тебя есть время и право пробовать. А твои сильные стороны останутся с тобой в любой профессии — именно они, а не «правильный выбор», делают тебя ценным.</p></div>'+
 
-    '<h3>👣 Первые 3 шага</h3>'+
+    '<h3>👣 С чего начать: 3 шага</h3>'+
     '<div class="steps">'+
-      '<div class="step">Выбери <b>одну</b> профессию из списка и посмотри 15-минутное видео «день из жизни» такого специалиста.</div>'+
-      '<div class="step">Спроси у взрослого, которому доверяешь, где он видит твои сильные стороны — сравни с этой картой.</div>'+
-      '<div class="step">Попробуй маленькое действие: мини-проект, кружок, статью или пробный урок по интересной теме.</div>'+
+      '<div class="step">Выбери одно направление из списка и изучи его изнутри: интервью специалиста, «день из жизни», требования вузов.</div>'+
+      '<div class="step">Обсуди эту карту со взрослым, которому доверяешь: где твои таланты видны со стороны, а где — новость?</div>'+
+      '<div class="step">Сделай маленький пробный шаг — мини-проект, стажировку, курс или кружок по интересной теме. Практика скажет больше теста.</div>'+
     '</div>'+
 
-    '<div class="disclaimer">Это инструмент саморефлексии и профориентации, а не клиническая диагностика. '+
-    'Он не ставит диагнозов и не заменяет специалиста. Сильных сторон много, путей много — ты справишься. ✨</div>'+
+    '<div class="disclaimer">Инструмент саморефлексии и профориентации, а не клиническая диагностика. '+
+    'Он не ставит диагнозов и не заменяет специалиста. Сильных сторон много, и путей тоже.</div>'+
   '</div>';
 }
 
 function parentReport(s){
-  const clifton=pick("CLIFTON",s).slice(0,4);
-  const riasec=pick("RIASEC",s).slice(0,3);
-  const values=pick("VALUES",s).slice(0,3);
-  const anxiety=(s["BOWEN:anxiety"]!==undefined)?s["BOWEN:anxiety"]:0;
-  const diff=(s["BOWEN:diff"]!==undefined)?s["BOWEN:diff"]:50;
+  const sig=signatureThemes(s).slice(0,5);
+  const ds=domainScores(s);
+  const dom=dominantDomain(s);
+  const riasec=pick("RIASEC",s).slice(0,3).map(r=>RIASEC_LABEL[r.dim]).join(", ");
+  const values=pick("VALUES",s).slice(0,3).map(v=>VALUE_LABEL[v.dim]).join(", ");
+  const anxiety=s["BOWEN:anxiety"]!==undefined?s["BOWEN:anxiety"]:0;
+  const diff=s["BOWEN:diff"]!==undefined?s["BOWEN:diff"]:50;
   const profs=topProfessions(s).slice(0,4);
   const countries=topCountries(s);
 
-  let strengths=clifton.map(c=>'<li><b>'+CLIFTON_LABEL[c.dim]+'</b> — '+CLIFTON_DESC[c.dim]+'.</li>').join("");
-  let interests=riasec.map(r=>RIASEC_LABEL[r.dim]).join(", ");
-  let vals=values.map(v=>({impact:"приносить пользу",freedom:"свобода выбора",stability:"стабильность",achievement:"достижения",growth:"развитие",creativity:"творчество"}[v.dim])).join(", ");
+  const strengths=sig.map(x=>'<li><b>'+THEMES[x.k].name+'</b> ('+DOMAINS[THEMES[x.k].d].name+') — '+THEMES[x.k].desc+'</li>').join("");
+  const profList=profs.map(p=>'<li><b>'+p.t+'</b> — профильные предметы: '+p.learn+'. Смежный путь: '+p.neighbor+'.</li>').join("");
+  const countryList=countries.map(c=>'<li>'+c.flag+' <b>'+c.name+'</b> — '+c.why+'.</li>').join("");
 
-  let profList=profs.map(p=>'<li><b>'+p.t+'</b> — учить: '+p.learn+'. Запасной путь: '+p.neighbor+'.</li>').join("");
-  let countryList=countries.map(c=>'<li>'+c.flag+' <b>'+c.name+'</b> — '+c.why+'.</li>').join("");
-
-  // gentle support zone
-  let supportZone="";
+  let supportZone;
   if(anxiety>=60){
-    supportZone='<p>По ответам заметно, что тема будущего и оценок вызывает у ребёнка повышенное напряжение. Это очень частое переживание в этом возрасте и <b>не повод для тревоги</b>. Больше всего помогает не «мотивация давлением», а ощущение, что его принимают любым результатом.</p>'+
-    '<p><b>Фразы, которые поддерживают:</b> «Мы рядом, что бы ни вышло», «Ошибиться не страшно — это часть пути», «Расскажи, что тебя больше всего беспокоит?».</p>';
+    supportZone='<p>По ответам видно, что тема будущего и оценок вызывает у ребёнка повышенное напряжение. Это очень распространённое переживание в этом возрасте и <b>не повод для тревоги</b>. Сильнее всего помогает не «мотивация давлением», а ощущение, что его принимают вне зависимости от результата.</p>'+
+    '<p><b>Фразы, которые поддерживают:</b> «Мы рядом при любом раскладе», «Ошибка — часть пути, а не провал», «Что именно тебя больше всего беспокоит?».</p>';
   } else {
-    supportZone='<p>Ребёнок в целом спокойно относится к теме будущего. Продолжайте поддерживать это ощущение опоры: интересуйтесь его мнением и отмечайте сильные стороны, а не только оценки.</p>';
+    supportZone='<p>Ребёнок в целом спокойно относится к теме будущего. Стоит поддерживать это ощущение опоры: интересоваться его мнением и замечать сильные стороны, а не только оценки.</p>';
   }
-  let diffZone = diff<45
-    ? '<p>Ребёнку пока бывает непросто отстаивать своё мнение рядом с ожиданиями близких — это <b>развиваемый навык взрослости</b>, а не недостаток. Помогает, когда его спрашивают «а ты сам(а) как думаешь?» и дают право на свой выбор в мелочах.</p>'
-    : '<p>Ребёнок неплохо умеет слышать себя рядом с мнением других — это хорошая опора для самостоятельных решений. Поддерживайте это доверием к его выбору.</p>';
+  const diffZone = diff<45
+    ? '<p>Ребёнку пока непросто отстаивать свою позицию рядом с ожиданиями близких — это <b>развиваемый навык взрослости</b>, а не недостаток. Помогают вопросы вроде «а ты сам как считаешь?» и право на собственный выбор в мелочах.</p>'
+    : '<p>Ребёнок неплохо умеет слышать себя рядом с мнением других — хорошая основа для самостоятельных решений. Поддерживайте это доверием к его выбору.</p>';
 
   return '<div class="card">'+
     '<span class="pill">👨‍👩‍👧 Как поддержать вашего ребёнка</span>'+
     '<h1>Понимание и конкретные шаги — без тревоги</h1>'+
-    '<p class="lead">Ниже — портрет сильных сторон вашего ребёнка и мягкие ориентиры, как быть рядом полезно.</p>'+
+    '<p class="lead">Ниже — профиль сильных сторон вашего ребёнка по методологии Gallup CliftonStrengths и мягкие ориентиры, как быть полезным рядом.</p>'+
 
-    '<h3>💪 Сильные стороны простым языком</h3><ul>'+strengths+'</ul>'+
+    '<h3>💪 Ведущие таланты</h3>'+
+    '<p class="muted">Ведущий домен — <b>'+DOMAINS[dom].name+'</b> ('+DOMAINS[dom].short+'). Баланс: Исполнение '+ds.exec+' · Влияние '+ds.influence+' · Отношения '+ds.relate+' · Стратегия '+ds.strategy+'.</p>'+
+    '<ul>'+strengths+'</ul>'+
 
-    '<h3>🎯 Как он(а) учится и что мотивирует</h3>'+
-    '<p>Ведущие интересы: <b>'+interests+'</b>. Что для ребёнка ценно: <b>'+vals+'</b>. '+
-    'Опирайтесь на это: связывайте учёбу и будущее с тем, что ему по-настоящему интересно.</p>'+
+    '<h3>🎯 Как он учится и что мотивирует</h3>'+
+    '<p>Ведущие интересы: <b>'+riasec+'</b>. Что для ребёнка ценно: <b>'+values+'</b>. Опирайтесь на это: связывайте учёбу и будущее с тем, что ему действительно интересно, а не только с «перспективностью».</p>'+
 
-    '<h3>💼 Направления и подходящие страны — с пояснением «почему»</h3>'+
+    '<h3>💼 Направления и подходящие среды — с пояснением «почему»</h3>'+
     '<ul>'+profList+'</ul>'+
     '<p style="margin-top:10px"><b>Где комфортно расти:</b></p><ul>'+countryList+'</ul>'+
 
-    '<h3>🤍 На что мягко обратить внимание</h3>'+
-    supportZone + diffZone +
+    '<h3>🤍 На что мягко обратить внимание</h3>'+supportZone+diffZone+
 
     '<h3>🚫 Чего лучше избегать</h3><ul>'+
     '<li>Давления «поступи любой ценой» и сравнения с другими детьми.</li>'+
-    '<li>Обесценивания выбора ребёнка («это несерьёзно», «на этом не заработать»).</li>'+
-    '<li>Превращения разговоров о будущем в источник тревоги — лучше в совместное исследование.</li>'+
+    '<li>Обесценивания выбора («это несерьёзно», «на этом не заработать»).</li>'+
+    '<li>Превращения разговоров о будущем в источник тревоги — продуктивнее совместное исследование.</li>'+
     '</ul>'+
 
-    ( anxiety>=75 ?
-      '<div class="antifear"><b>Мягкая рекомендация:</b> если тревога о будущем заметно мешает ребёнку в повседневной жизни, бывает полезно поговорить со школьным психологом. Это про заботу и норму, а не про «что-то не так».</div>' : '' )+
+    (anxiety>=75?'<div class="antifear"><b>Мягкая рекомендация:</b> если тревога о будущем заметно мешает ребёнку в повседневной жизни, имеет смысл обратиться к школьному психологу. Это про заботу и норму, а не про «что-то не так».</div>':'')+
 
-    '<div class="disclaimer">Это инструмент саморефлексии и профориентации, а не клиническая диагностика. '+
+    '<div class="disclaimer">Инструмент саморефлексии и профориентации, а не клиническая диагностика. '+
     'Он не ставит диагнозов и не заменяет специалиста. Результаты — повод для тёплого разговора, а не оценка ребёнка.</div>'+
   '</div>';
 }
-
-/* If a completed session exists and user reopens, allow jumping straight to report only via resume flow. */
 </script>
 </body>
 </html>

@@ -24,8 +24,8 @@ function doPost(e) {
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
-        'Дата', 'Имя', 'Класс', 'Топ-суперсилы', 'Стиль (DISC)', 'Роль в команде',
-        'Интересы (RIASEC)', 'Профессии', 'Страны',
+        'Дата', 'Имя', 'Класс', 'Топ-5 талантов (Gallup)', 'Ведущий домен', 'Баланс доменов',
+        'Роль в команде', 'Интересы (RIASEC)', 'Профессии', 'Страны',
         'Сигнал тревоги (0-100)', 'Самостоятельность (0-100)', 'Все ответы (JSON)'
       ]);
       sheet.setFrozenRows(1);
@@ -37,7 +37,8 @@ function doPost(e) {
       d.name || '',
       d.klass || '',
       (d.strengths || []).join(', '),
-      d.disc || '',
+      d.domain || '',
+      d.domains || '',
       d.role || '',
       (d.riasec || []).join(', '),
       (d.professions || []).join(' | '),
