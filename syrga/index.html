@@ -351,7 +351,7 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
         <div class="chips" id="guest-chips"></div>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Имя гостя</th><th style="width:90px">Стол</th><th style="width:150px">Сторона</th><th style="width:110px">Подтвердил</th><th style="width:110px">Карточка</th><th style="width:44px"></th></tr></thead>
+            <thead><tr><th>Имя гостя</th><th style="width:160px">Стол</th><th style="width:140px">Сторона</th><th style="width:105px">Подтвердил</th><th style="width:95px">Карточка</th><th style="width:44px"></th></tr></thead>
             <tbody id="guest-body"></tbody>
           </table>
         </div>
@@ -360,6 +360,10 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
           <button class="btn gh sm" id="bulk">⬆ Вставить список</button>
         </div>
         <h3 class="hh">Рассадка по столам</h3>
+        <div class="bar-actions" style="margin:0 0 14px">
+          <button class="btn gh sm" id="exp-tables-csv">⬇ Список по столам (CSV)</button>
+          <button class="btn gh sm" id="exp-tables-txt">⬇ Список по столам (текст)</button>
+        </div>
         <div class="grid g3" id="tables"></div>
       </section>
 
@@ -377,7 +381,7 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
             <div class="field"><label>Надпись сверху</label><input type="text" data-v="cardTop" placeholder="Сырға салу"></div>
             <div class="field"><label>Строка под именем</label><input type="text" data-v="cardLine" placeholder="Қыз барған жеріне құт алып барады"></div>
             <div class="field" style="margin:0"><label>Показывать номер стола</label>
-              <select data-v="cardTable"><option value="yes">Да — «2-<span id="ust">үстел</span>»</option><option value="no">Нет</option></select>
+              <select data-v="cardTable"><option value="yes">Да — название стола</option><option value="no">Нет</option></select>
             </div>
             <div class="bar-actions">
               <button class="btn pri sm" id="print-cards">🖨 Распечатать карточки</button>
@@ -710,6 +714,7 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
             <div class="field"><label>Время начала</label><input type="time" data-v="time"></div>
             <div class="field"><label>Место</label><input type="text" data-v="venue" placeholder="Ресторан, адрес"></div>
             <div class="field"><label>Столов</label><input type="number" data-v="tables" placeholder="6"></div>
+            <div class="field"><label>Названия столов (через запятую, по порядку)</label><input type="text" id="tblnames" placeholder="Береке, Орда, Бақыт, Махаббат, Қуаныш, Парасат"></div>
             <div class="field" style="margin:0"><label>Координатор мероприятия</label><input type="text" data-v="coord" placeholder="Имя"></div>
           </div>
           <div class="card">
@@ -788,11 +793,15 @@ function toLat(s){
 }
 const isLat=()=>S.script==='lat';
 const USTEL=()=>isLat()?'üstel':'үстел';
+/* казахские названия столов; если имя не задано — показываем «N-үстел» */
+const TABLE_SEED=['Береке','Орда','Бақыт','Махаббат','Қуаныш','Парасат'];
+function tableName(n){ const nm=(S.tableNames||[])[n-1]; return nm&&nm.trim()?nm.trim():`${n}-${USTEL()}`; }
+function tbDisplay(tb){ const s=String(tb||'').trim(); return /^\d+$/.test(s)?tableName(+s):s; }
 
 const SEED={
   script:'cyr',blocksView:'table',
   bride:'Даяна',groom:'',brideLat:'Dayana',groomLat:'',
-  date:'2026-08-15',time:'17:00',venue:'',tables:6,coord:'',budget:'',treasurer:'',notes:'',
+  date:'2026-08-15',time:'17:00',venue:'',tables:6,tableNames:[...TABLE_SEED],coord:'',budget:'',treasurer:'',notes:'',
   cardTop:'Сырға салу',cardLine:'Қыз барған жеріне құт алып барады',cardTable:'yes',
   pzTop:'Сырға салу',pzMain:'Даяна',pzSub:'Қыз барған жеріне құт алып барады',pzDate:'',
   pzType:'',pzVendor:'',pzDeadline:'',pzNote:'',
@@ -1445,6 +1454,14 @@ function renderGuestKPI(){
     {c:cd<S.guests.length?'nv':'ok',l:'Карточки',v:`${cd}/${S.guests.length}`,n:'напечатаны'}
   ]);
 }
+function tbSel(g){
+  const n=+S.tables||0;
+  let opts=`<option value="">— стол —</option>`, inRange=false;
+  for(let i=1;i<=n;i++){ const cur=String(g.tb)===String(i); if(cur)inRange=true;
+    opts+=`<option value="${i}"${cur?' selected':''}>${i} · ${esc(tableName(i))}</option>`; }
+  if(g.tb&&!inRange)opts+=`<option value="${esc(g.tb)}" selected>${esc(g.tb)}</option>`;
+  return `<select data-l="guests" data-id="${g.id}" data-f="tb">${opts}</select>`;
+}
 function renderGuests(){
   renderGuestKPI();
   const sides=['Все','Қыз жағы','Күйеу жағы'];
@@ -1453,7 +1470,7 @@ function renderGuests(){
   const list=key?S.guests.filter(g=>g.side===key):S.guests;
   document.getElementById('guest-body').innerHTML=list.length?list.map(g=>`<tr data-id="${g.id}">
     <td>${inp('guests',g.id,'n','Имя гостя')}</td>
-    <td>${inp('guests',g.id,'tb','1')}</td>
+    <td>${tbSel(g)}</td>
     <td>${sel('guests',g.id,'side',[['qyz','Қыз жағы'],['kuieu','Күйеу жағы'],['both','Общие']])}</td>
     <td class="ctr"><input type="checkbox" class="cb" data-l="guests" data-id="${g.id}" data-f="ok"${g.ok?' checked':''}></td>
     <td class="ctr"><input type="checkbox" class="cb" data-l="guests" data-id="${g.id}" data-f="card"${g.card?' checked':''}></td>
@@ -1468,9 +1485,10 @@ function renderTables(){
   let html='';
   for(let i=1;i<=n;i++){
     const g=S.guests.filter(x=>String(x.tb).trim()===String(i));
+    const nm=(S.tableNames||[])[i-1];
     html+=`<div class="card" style="padding:14px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline">
-        <div style="font-family:var(--display);font-size:19px;font-weight:600;color:var(--wine)">${i}-үстел</div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+        <div style="font-family:var(--display);font-size:19px;font-weight:600;color:var(--wine)">${esc(tableName(i))}${nm&&nm.trim()?` <span style="font-family:var(--body);font-size:11px;color:var(--muted2);font-weight:600">${i}-${USTEL()}</span>`:''}</div>
         <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">${g.length}</div>
       </div>
       <div style="font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.6">${g.length?g.map(x=>esc(x.n||'—')).join('<br>'):'<i>пусто</i>'}</div>
@@ -1504,7 +1522,7 @@ function renderCardPrev(){
     `<div class="o">◆ ◆ ◆</div>
      ${S.cardTop?`<div class="t" style="margin-top:6px">${esc(S.cardTop)}</div>`:''}
      <div class="n">${esc(g&&g.n?g.n:ph)}</div>
-     ${S.cardTable==='yes'?`<div class="t">${esc(g&&g.tb?g.tb:'2')}-${USTEL()}</div>`:''}
+     ${S.cardTable==='yes'?`<div class="t">${esc(g&&g.tb?tbDisplay(g.tb):tableName(2))}</div>`:''}
      ${S.cardLine?`<div class="l">${esc(S.cardLine)}</div>`:''}`;
   const u=document.getElementById('ust'); if(u)u.textContent=USTEL();
 }
@@ -1523,7 +1541,7 @@ function printCards(){
     <div class="o">&#9670; &#9670; &#9670;</div>
     ${S.cardTop?`<div class="tp">${esc(S.cardTop)}</div>`:''}
     <div class="n">${esc(g.n||'')}</div>
-    ${S.cardTable==='yes'&&g.tb?`<div class="tb">${esc(g.tb)}-${USTEL()}</div>`:''}
+    ${S.cardTable==='yes'&&g.tb?`<div class="tb">${esc(tbDisplay(g.tb))}</div>`:''}
     ${S.cardLine?`<div class="l">${esc(S.cardLine)}</div>`:''}
   </div>`).join('');
   const w=window.open('','_blank');
@@ -1720,7 +1738,15 @@ document.getElementById('add-final').onclick=()=>{
 };
 
 /* ---------- io ---------- */
-function fillFields(){ document.querySelectorAll('[data-v]').forEach(el=>{ el.value=S[el.dataset.v]??''; }); }
+function fillFields(){
+  document.querySelectorAll('[data-v]').forEach(el=>{ el.value=S[el.dataset.v]??''; });
+  const tn=document.getElementById('tblnames');
+  if(tn&&document.activeElement!==tn)tn.value=(S.tableNames||[]).join(', ');
+}
+document.getElementById('tblnames').addEventListener('input',e=>{
+  S.tableNames=e.target.value.split(',').map(s=>s.trim());
+  save(); renderTables(); renderGuests(); renderCardPrev();
+});
 function exportJSON(){
   const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const a=document.createElement('a');
@@ -1730,6 +1756,42 @@ function exportJSON(){
 }
 document.getElementById('exp').onclick=exportJSON;
 document.getElementById('exp2').onclick=exportJSON;
+
+/* ---------- export guest list grouped by tables ---------- */
+const sideLabel=s=>s==='qyz'?'Қыз жағы':s==='kuieu'?'Күйеу жағы':'Общие';
+function download(name,text,mime){
+  const blob=new Blob([text],{type:mime});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=name; a.click();
+  URL.revokeObjectURL(a.href);
+}
+/* returns [{title, guests:[...]}] in table order, with a "Без стола" bucket last */
+function seatingGroups(){
+  const n=+S.tables||0, groups=[];
+  for(let i=1;i<=n;i++) groups.push({title:tableName(i), num:i, guests:S.guests.filter(x=>String(x.tb).trim()===String(i))});
+  const no=S.guests.filter(x=>!String(x.tb).trim());
+  if(no.length) groups.push({title:'Без стола', num:'', guests:no});
+  return groups;
+}
+function exportTablesCSV(){
+  if(!S.guests.length){ alert('Список гостей пуст.'); return; }
+  const rows=[['Стол','№ стола','Имя гостя','Сторона','Подтвердил']];
+  seatingGroups().forEach(gr=>gr.guests.forEach(x=>rows.push([gr.title,gr.num,x.n||'',sideLabel(x.side),x.ok?'да':'нет'])));
+  const csv='﻿'+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  download(`gosti-po-stolam-${S.date||''}.csv`,csv,'text/csv;charset=utf-8');
+}
+function exportTablesTXT(){
+  if(!S.guests.length){ alert('Список гостей пуст.'); return; }
+  const parts=[`Рассадка гостей — ${names()}${S.date?' · '+new Date(S.date+'T00:00:00').toLocaleDateString('ru-RU'):''}`,''];
+  seatingGroups().forEach(gr=>{
+    parts.push(`▸ ${gr.title} (${gr.guests.length})`);
+    gr.guests.forEach((x,i)=>parts.push(`   ${i+1}. ${x.n||'—'}${x.ok?'':' — не подтвердил'}`));
+    parts.push('');
+  });
+  download(`gosti-po-stolam-${S.date||''}.txt`,parts.join('\n'),'text/plain;charset=utf-8');
+}
+document.getElementById('exp-tables-csv').onclick=exportTablesCSV;
+document.getElementById('exp-tables-txt').onclick=exportTablesTXT;
 document.getElementById('imp').onclick=()=>document.getElementById('file').click();
 document.getElementById('file').onchange=e=>{
   const f=e.target.files[0]; if(!f)return;
