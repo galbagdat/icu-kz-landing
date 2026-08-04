@@ -278,7 +278,7 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
         <h2 id="ttl">Дашборд</h2>
         <div class="sub" id="tsub">Общая готовность</div>
       </div>
-      <button class="btn gh sm" id="exp">⬇ Экспорт</button>
+      <button class="btn gh sm" id="exp">⬇ Экспорт PDF</button>
     </div>
     <div class="wrap">
 
@@ -361,8 +361,9 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
         </div>
         <h3 class="hh">Рассадка по столам</h3>
         <div class="bar-actions" style="margin:0 0 14px">
-          <button class="btn gh sm" id="exp-tables-csv">⬇ Список по столам (CSV)</button>
-          <button class="btn gh sm" id="exp-tables-txt">⬇ Список по столам (текст)</button>
+          <button class="btn gh sm" id="exp-tables-pdf">⬇ Список по столам (PDF)</button>
+          <button class="btn gh sm" id="exp-tables-csv">⬇ CSV</button>
+          <button class="btn gh sm" id="exp-tables-txt">⬇ Текст</button>
         </div>
         <div class="grid g3" id="tables"></div>
       </section>
@@ -724,12 +725,15 @@ td textarea.cellwrap:hover,td textarea.cellwrap:focus{border-color:var(--line2);
             <div class="field"><label>Ответственный за деньги</label><input type="text" data-v="treasurer" placeholder="Имя"></div>
             <div class="field" style="margin:0"><label>Заметки</label><textarea data-v="notes"></textarea></div>
             <div class="bar-actions">
-              <button class="btn gh sm" id="exp2">⬇ Скачать копию (JSON)</button>
+              <button class="btn pri sm" id="exp-pdf">⬇ Скачать всё в PDF</button>
+            </div>
+            <div class="bar-actions">
+              <button class="btn gh sm" id="exp2">⬇ Копия (JSON)</button>
               <button class="btn gh sm" id="imp">⬆ Загрузить копию</button>
               <button class="btn gh sm" id="reset" style="color:var(--red);border-color:#e8c4bd">Сбросить всё</button>
             </div>
             <input type="file" id="file" accept="application/json" hidden>
-            <p class="hint" style="margin:12px 0 0">Данные хранятся только в этом браузере. Для переноса — скачайте копию и загрузите на другом устройстве.</p>
+            <p class="hint" style="margin:12px 0 0">PDF собирает все разделы панели в один документ — в окне печати выберите «Сохранить как PDF». JSON-копия нужна для переноса данных на другое устройство.</p>
           </div>
         </div>
       </section>
@@ -1754,7 +1758,6 @@ function exportJSON(){
   a.download=`syrga-salu-${S.date||new Date().toISOString().slice(0,10)}.json`;
   a.click(); URL.revokeObjectURL(a.href);
 }
-document.getElementById('exp').onclick=exportJSON;
 document.getElementById('exp2').onclick=exportJSON;
 
 /* ---------- export guest list grouped by tables ---------- */
@@ -1792,6 +1795,185 @@ function exportTablesTXT(){
 }
 document.getElementById('exp-tables-csv').onclick=exportTablesCSV;
 document.getElementById('exp-tables-txt').onclick=exportTablesTXT;
+
+/* ---------- PDF export (print window → «Сохранить как PDF») ---------- */
+const PRINT_CSS=`
+@page{size:A4;margin:14mm}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Manrope',-apple-system,sans-serif;color:#2e1a20;font-size:11px;line-height:1.45}
+.rp-head{border-bottom:2px solid #9b1b30;padding-bottom:10px;margin-bottom:16px}
+.rp-kick{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#9c7b1c;font-weight:700}
+.rp-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:700;color:#9b1b30;line-height:1.05;margin-top:3px}
+.rp-meta{font-size:11px;color:#7d6d5f;margin-top:5px}
+.rp-gen{font-size:9px;color:#a09182;margin-top:4px}
+.rp-kpis{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.rp-kpi{border:1px solid #e9dec8;border-radius:7px;padding:7px 11px;min-width:120px}
+.rp-kpi .l{font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:#7d6d5f;font-weight:700}
+.rp-kpi .v{font-size:16px;font-weight:700;color:#9b1b30;margin-top:2px}
+section{margin-top:16px;break-inside:auto}
+h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;font-weight:600;color:#9b1b30;border-bottom:1px solid #dbcaa9;padding-bottom:3px;margin-bottom:7px;break-after:avoid}
+h3{font-size:11px;font-weight:700;color:#6f1122;margin:9px 0 4px;break-after:avoid}
+table.rp{width:100%;border-collapse:collapse;margin-bottom:4px}
+table.rp th{text-align:left;font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;color:#7d6d5f;font-weight:700;border-bottom:1.4px solid #d9caae;padding:4px 6px;background:#fbf8f1}
+table.rp td{padding:4px 6px;border-bottom:.5px solid #ece3d2;vertical-align:top}
+table.rp td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.rp tr{break-inside:avoid}
+table.rp tfoot td{border-top:1.4px solid #d9caae;font-weight:700;background:#fbf8f1}
+table.kv{width:100%;border-collapse:collapse}
+table.kv td{padding:3px 6px;border-bottom:.5px solid #ece3d2;vertical-align:top}
+table.kv td.k{width:42%;color:#7d6d5f;font-weight:600}
+.pill{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:9px;background:#efe6d3;color:#7d6d5f}
+.pill.done{background:#e7f0ea;color:#3f7d5a}.pill.prog{background:#f8efd9;color:#c08a2c}.pill.risk{background:#f8eae7;color:#a8493f}
+.empty{color:#a09182;font-style:italic}
+.note{font-size:10px;color:#7d6d5f;margin-bottom:6px}
+ul.chk{list-style:none}ul.chk li{padding:2px 0 2px 16px;position:relative}
+ul.chk li::before{content:'☐';position:absolute;left:0;color:#b8873e}
+ul.chk li.d::before{content:'☑';color:#3f7d5a}
+`;
+function openPrint(title, inner){
+  const w=window.open('','_blank');
+  if(!w){ alert('Браузер заблокировал окно печати. Разрешите всплывающие окна для этой страницы и повторите.'); return; }
+  w.document.write(`<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>${esc(title)}</title>`+
+    `<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">`+
+    `<style>${PRINT_CSS}</style></head><body>${inner}`+
+    `<scr`+`ipt>window.onload=function(){setTimeout(function(){window.focus();window.print();},450)}</scr`+`ipt>`+
+    `</body></html>`);
+  w.document.close();
+}
+/* report building helpers */
+const stPill=s=>`<span class="pill ${s==='done'?'done':s==='prog'?'prog':''}">${ST_LABEL[s]||s}</span>`;
+const ynMark=b=>b?'✓':'—';
+function rpTable(cols,data,foot){
+  if(!data.length)return `<p class="empty">Пусто</p>`;
+  return `<table class="rp"><thead><tr>${cols.map(c=>`<th${c.n?' style="text-align:right"':''}>${esc(c.h)}</th>`).join('')}</tr></thead>`+
+    `<tbody>${data.map(r=>`<tr>${cols.map(c=>`<td${c.n?' class="n"':''}>${c.f(r)}</td>`).join('')}</tr>`).join('')}</tbody>`+
+    (foot?`<tfoot>${foot}</tfoot>`:'')+`</table>`;
+}
+function kv(pairs){
+  const rows=pairs.filter(p=>p[1]!==''&&p[1]!=null&&String(p[1]).trim()!=='');
+  return rows.length?`<table class="kv">${rows.map(p=>`<tr><td class="k">${esc(p[0])}</td><td>${esc(p[1])}</td></tr>`).join('')}</table>`:'';
+}
+function sec(title,inner){ return inner&&inner.trim()?`<section><h2>${esc(title)}</h2>${inner}</section>`:''; }
+function fdate(d){ return d?new Date(d+'T00:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'}):''; }
+
+function buildReportHTML(){
+  const m=money(), tr=trackStats();
+  const allD=tr.reduce((a,x)=>a+x.d,0), allT=tr.reduce((a,x)=>a+x.t,0);
+  const dl=daysLeft();
+  const head=`<div class="rp-head">
+    <div class="rp-kick">Сырға салу · Құдалық</div>
+    <div class="rp-title">${esc(names())}</div>
+    <div class="rp-meta">${[fdate(S.date),S.time,S.venue,S.guests.length?S.guests.length+' '+plural(S.guests.length,'гость','гостя','гостей'):''].filter(Boolean).map(esc).join(' · ')}</div>
+    <div class="rp-gen">Сформировано ${new Date().toLocaleDateString('ru-RU')} · панель подготовки</div>
+  </div>
+  <div class="rp-kpis">
+    <div class="rp-kpi"><div class="l">Дней до тоя</div><div class="v">${dl===null?'—':(dl<0?'0':dl)}</div></div>
+    <div class="rp-kpi"><div class="l">Готовность</div><div class="v">${pct(allD,allT)}%</div></div>
+    <div class="rp-kpi"><div class="l">Смета</div><div class="v">${fmt(m.sum)} ₸</div></div>
+    <div class="rp-kpi"><div class="l">Предоплачено</div><div class="v">${fmt(m.pre)} ₸</div></div>
+    <div class="rp-kpi"><div class="l">Остаток</div><div class="v">${fmt(m.left)} ₸</div></div>
+  </div>`;
+
+  const overview=sec('Готовность по направлениям',
+    rpTable([{h:'Направление',f:t=>esc(t.n)},{h:'Готово',n:1,f:t=>`${t.d}/${t.t}`},{h:'%',n:1,f:t=>pct(t.d,t.t)+'%'}],tr));
+
+  const blocks=sec('Блоки готовности',
+    rpTable([{h:'Блок',f:r=>esc(r.t)},{h:'Ответственный',f:r=>esc(r.who)},{h:'Статус',f:r=>stPill(r.s)},{h:'Комментарий',f:r=>esc(r.m)}],S.blocks));
+
+  const schedule=(()=>{
+    if(!S.date)return '';
+    const today=new Date(); today.setHours(0,0,0,0);
+    const {extra,sorted}=collectScheduleDates();
+    const rows=sorted.map(d=>{
+      const items=S.milestones.filter(mm=>mm.d===d), ex=extra[d]||[];
+      const isEvent=d===S.date;
+      const list=[...items.map(mm=>`${mm.done?'☑':'☐'} ${esc(mm.t)}`),...ex.map(t=>'◆ '+esc(t))];
+      if(isEvent)list.push('<b>СЫРҒА САЛУ</b>');
+      return `<tr><td style="white-space:nowrap">${fdate(d)}${isEvent?' 💍':''}</td><td>${list.join('<br>')||'—'}</td></tr>`;
+    }).join('');
+    return sec('Расписание к тою',`<table class="rp"><thead><tr><th style="width:130px">Дата</th><th>Дела</th></tr></thead><tbody>${rows}</tbody></table>`);
+  })();
+
+  const day=sec('Тайминг дня',
+    rpTable([{h:'Время',f:r=>esc(r.tm)},{h:'Что происходит',f:r=>esc(r.t)},{h:'Кто ведёт',f:r=>esc(r.who)},{h:'Музыка / съёмка',f:r=>esc(r.mus)},{h:'Статус',f:r=>stPill(r.s)}],S.day));
+
+  const seating=(()=>{
+    const groups=seatingGroups().filter(g=>g.guests.length);
+    if(!S.guests.length)return '';
+    const blocks=groups.map(gr=>`<h3>${esc(gr.title)} — ${gr.guests.length} ${plural(gr.guests.length,'гость','гостя','гостей')}</h3>`+
+      rpTable([{h:'Имя',f:x=>esc(x.n)},{h:'Сторона',f:x=>esc(sideLabel(x.side))},{h:'Подтвердил',f:x=>ynMark(x.ok)}],gr.guests)).join('');
+    return sec('Гости и рассадка',`<div class="note">Всего гостей: ${S.guests.length} · подтвердили: ${S.guests.filter(g=>g.ok).length}</div>`+blocks);
+  })();
+
+  const kuda=sec('Құдаларға сыйлық — подарки',
+    rpTable([{h:'№',n:1,f:r=>r.n},{h:'Кому',f:r=>esc(r.who)},{h:'Подарок',f:r=>esc(r.g)},{h:'Куплен',f:r=>ynMark(r.bought)},{h:'Подписан',f:r=>ynMark(r.signed)}],S.kuda));
+
+  const attr=sec('Ұлттық атрибуттар',
+    rpTable([{h:'Позиция',f:r=>esc(r.t)},{h:'Комментарий',f:r=>esc(r.m)},{h:'Кто',f:r=>esc(r.who)},{h:'Готово',f:r=>ynMark(r.done)}],S.attr));
+
+  const toi=sec('Тойбастар',
+    kv([['Исполнитель',S.toiSinger],['Песня',S.toiSong],['Сопровождение',S.toiMusic],['Время выхода',S.toiTime],['Подарок исполнителю',S.toiGift],['Кто вручает',S.toiGiver],['Кто говорит слово',S.toiWord],['Заметки',S.toiNote]])+
+    rpTable([{h:'Шаг',f:r=>esc(r.t)},{h:'Кто',f:r=>esc(r.who)},{h:'Статус',f:r=>stPill(r.s)}],S.toi));
+
+  const MI={no:'Нужна',yes:'Есть',live:'Живой звук'};
+  const perf=sec('Кто что поёт',
+    rpTable([{h:'Кто',f:r=>esc(r.who)},{h:'Песня',f:r=>esc(r.t)},{h:'Когда',f:r=>esc(r.w)},{h:'Минусовка',f:r=>esc(MI[r.mi]||r.mi)},{h:'Статус',f:r=>stPill(r.s)}],S.perf));
+
+  const music=sec('Музыка и жетіген',
+    kv([['Жетіген / ансамбль',S.jetigen],['Диджей / звук',S.dj],['Ведущий (асаба)',S.host],['Саундчек',S.soundcheck],['Настроение',S.musicMood],['Стоп-лист',S.musicStop]])+
+    rpTable([{h:'Момент',f:r=>esc(r.mom)},{h:'Трек / инструмент',f:r=>esc(r.t)},{h:'Исполнитель',f:r=>esc(r.a)},{h:'Статус',f:r=>stPill(r.s)}],S.playlist));
+
+  const photo=sec('Фотозона',
+    kv([['Верхняя строка',fill(S.pzTop)],['Главная строка',fill(S.pzMain)],['Строка-бата',fill(S.pzSub)],['Дата',S.pzDate],['Тип',S.pzType],['Подрядчик',S.pzVendor],['Дедлайн макета',fdate(S.pzDeadline)],['Заметки',S.pzNote]]));
+
+  const shoot=sec('Национальная фотосессия',
+    kv([['Дата съёмки',fdate(S.shootDate)],['Локация',S.shootLoc],['Фотограф',S.shootPhoto],['Время',S.shootTime],['Образ невесты',S.shootBride],['Образ жениха',S.shootGroom],['Прокат костюмов',S.shootRent],['Визажист / стилист',S.shootStyle]])+
+    rpTable([{h:'Кадр / реквизит',f:r=>esc(r.t)},{h:'Локация',f:r=>esc(r.loc)},{h:'Кто в кадре',f:r=>esc(r.who)},{h:'Статус',f:r=>stPill(r.s)}],S.shoot));
+
+  const video=sec('Видео и LED',
+    kv([['Видеограф',S.videographer],['Фотограф',S.photographer],['Техника',S.videoGear],['Дедлайн фильма',fdate(S.filmDeadline)],['Ролик на LED',S.ledVideo],['Кто монтирует',S.ledEditor],['Дедлайн ролика',fdate(S.ledDeadline)],['Заметки',S.filmIdea]])+
+    rpTable([{h:'Когда',f:r=>esc(r.w)},{h:'Сцена',f:r=>esc(r.t)},{h:'Локация',f:r=>esc(r.loc)},{h:'Кто',f:r=>esc(r.who)},{h:'Статус',f:r=>stPill(r.s)}],S.shots));
+
+  const song=sec('Запись песни',
+    kv([['Название',S.songTitle],['Исполнитель',S.songSinger],['Автор',S.songAuthor],['Комментарий',S.songNote],['Студия',S.studio],['Дата записи',fdate(S.studioDate)],['Звукорежиссёр',S.soundEng],['Дедлайн трека',fdate(S.songDeadline)]])+
+    rpTable([{h:'Этап',f:r=>esc(r.t)},{h:'Ответственный',f:r=>esc(r.who)},{h:'Срок',f:r=>fdate(r.d)},{h:'Статус',f:r=>stPill(r.s)}],S.stages));
+
+  const rest=sec('Ресторан',
+    rpTable([{h:'Задача',f:r=>esc(r.t)},{h:'Комментарий',f:r=>esc(r.m)},{h:'Ответственный',f:r=>esc(r.who)},{h:'Готово',f:r=>ynMark(r.done)}],S.rest));
+
+  const decor=sec('Декор',
+    rpTable([{h:'Задача',f:r=>esc(r.t)},{h:'Комментарий',f:r=>esc(r.m)},{h:'Ответственный',f:r=>esc(r.who)},{h:'Готово',f:r=>ynMark(r.done)}],S.decor));
+
+  const ST_PAY={todo:'Не оплачено',prog:'Предоплата',done:'Оплачено'};
+  const pay=sec('Оплаты и предоплаты',
+    rpTable(
+      [{h:'Статья расходов',f:r=>esc(r.t)},{h:'Подрядчик',f:r=>esc(r.c)},{h:'Сумма',n:1,f:r=>fmt(r.sum)},{h:'Предоплата',n:1,f:r=>fmt(r.pre)},{h:'Остаток',n:1,f:r=>fmt((+r.sum||0)-(+r.pre||0))},{h:'Статус',f:r=>`<span class="pill ${r.s==='done'?'done':r.s==='prog'?'prog':''}">${ST_PAY[r.s]||r.s}</span>`}],
+      S.pay,
+      `<tr><td colspan="2">Итого</td><td class="n">${fmt(m.sum)}</td><td class="n">${fmt(m.pre)}</td><td class="n">${fmt(m.left)}</td><td></td></tr>`));
+
+  const cont=sec('Контакты',
+    rpTable([{h:'Роль',f:r=>esc(r.r)},{h:'Имя',f:r=>esc(r.n)},{h:'Телефон',f:r=>esc(r.p)},{h:'Комментарий',f:r=>esc(r.m)}],S.cont));
+
+  const final=sec('Чек-лист за день до',
+    `<ul class="chk">${S.final.map(t=>`<li class="${t.done?'d':''}">${esc(t.t)}${t.m?` <span style="color:#a09182">— ${esc(t.m)}</span>`:''}</li>`).join('')}</ul>`);
+
+  return head+overview+blocks+schedule+day+seating+kuda+attr+toi+perf+music+photo+shoot+video+song+rest+decor+pay+cont+final;
+}
+function exportPDF(){ openPrint(`Сырға салу — ${names()}`, buildReportHTML()); }
+
+function exportSeatingPDF(){
+  if(!S.guests.length){ alert('Список гостей пуст.'); return; }
+  const groups=seatingGroups().filter(g=>g.guests.length);
+  const head=`<div class="rp-head"><div class="rp-kick">Сырға салу · Құдалық</div>
+    <div class="rp-title">Рассадка гостей</div>
+    <div class="rp-meta">${[esc(names()),fdate(S.date),S.venue].filter(Boolean).join(' · ')}</div></div>`;
+  const body=groups.map(gr=>`<h3>${esc(gr.title)} — ${gr.guests.length} ${plural(gr.guests.length,'гость','гостя','гостей')}</h3>`+
+    rpTable([{h:'Имя гостя',f:x=>esc(x.n)},{h:'Сторона',f:x=>esc(sideLabel(x.side))},{h:'Подтвердил',f:x=>ynMark(x.ok)}],gr.guests)).join('');
+  openPrint(`Рассадка — ${names()}`, head+body);
+}
+document.getElementById('exp').onclick=exportPDF;
+document.getElementById('exp-pdf').onclick=exportPDF;
+document.getElementById('exp-tables-pdf').onclick=exportSeatingPDF;
 document.getElementById('imp').onclick=()=>document.getElementById('file').click();
 document.getElementById('file').onchange=e=>{
   const f=e.target.files[0]; if(!f)return;
